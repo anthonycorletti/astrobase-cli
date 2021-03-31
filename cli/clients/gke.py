@@ -4,29 +4,30 @@ from contextlib import contextmanager
 import requests
 import typer
 from kubernetes import client, config
-from sh import aws, kubectl
+from sh import gcloud, kubectl
 
-from utils.config import AstrobaseConfig
-from utils.formatter import json_out
+from cli.utils.config import AstrobaseConfig
+from cli.utils.formatter import json_out
+from cli.utils.http import query_str
 
 astrobase_config = AstrobaseConfig()
 
 
-class EKSClient:
+class GKEClient:
     def __init__(self):
         server = astrobase_config.current_profile.server
-        self.url = f"{server}/eks"
+        self.url = f"{server}/gke"
 
     def get_kubeconfig_credentials(
         self, cluster_name: str, cluster_location: str
     ) -> None:
-        aws(
-            "eks",
+        gcloud(
+            "container",
+            "clusters",
+            "get-credentials",
+            cluster_name,
             "--region",
             cluster_location,
-            "update-kubeconfig",
-            "--name",
-            cluster_name,
         )
 
     @contextmanager
@@ -35,20 +36,16 @@ class EKSClient:
         yield client.ApiClient()
 
     def create(self, cluster: dict) -> None:
-        for nodegroup in cluster.get("nodegroups", []):
-            nodegroup["clusterName"] = cluster.get("name")
-            nodegroup["subnets"] = cluster.get("resourcesVpcConfig", {}).get(
-                "subnetIds", []
-            )
         res = requests.post(self.url, json=cluster)
         typer.echo(json_out(res.json()))
 
     def destroy(self, cluster: dict) -> None:
-        cluster_url = f"{self.url}/{cluster.get('name')}"
-        nodegroup_names = [ng.get("nodegroupName") for ng in cluster.get("nodegroups")]
-        res = requests.delete(
-            f"{cluster_url}?region={cluster.get('region')}", json=nodegroup_names
-        )
+        params = {
+            "location": cluster.get("location"),
+            "project_id": cluster.get("project_id"),
+        }
+        cluster_url = f"{self.url}/{cluster.get('name')}?{query_str(params)}"
+        res = requests.delete(cluster_url)
         typer.echo(json_out(res.json()))
 
     def apply_kubernetes_resources(

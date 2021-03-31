@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "astrobase-cli"
+name = "cli"
 version = "0.1.0"
 description = "Astrobase CLI Client"
 authors = ["Anthony Corletti <anthony@astrobase.co>"]

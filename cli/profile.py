@@ -3,8 +3,9 @@ from typing import Optional
 
 import typer
 
-from utils.config import ASTROBASE_HOST_PORT, AstrobaseConfig, AstrobaseProfile
-from utils.formatter import json_out
+from cli.utils.config import (ASTROBASE_HOST_PORT, AstrobaseConfig,
+                              AstrobaseProfile)
+from cli.utils.formatter import json_out
 
 app = typer.Typer(help="""Manage Astrobase profiles.""")
 astrobase_config = AstrobaseConfig()

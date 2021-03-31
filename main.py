@@ -2,15 +2,13 @@ import docker
 import typer
 import yaml
 
-from astrobase_cli import __version__ as version
-from astrobase_cli import apply, destroy, profile
-from schemas.cluster import Clusters
-from schemas.resource import ResourceList
-from utils.config import AstrobaseConfig, AstrobaseDockerConfig
-from utils.params import YamlParams
+from cli import __version__ as version
+from cli import apply, destroy, profile
+from cli.schemas.cluster import Clusters
+from cli.schemas.resource import ResourceList
+from cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
+from cli.utils.params import YamlParams
 
-astrobase_apply = apply.Apply()
-astrobase_destroy = destroy.Destroy()
 docker_client = docker.from_env()
 name = f"🚀 Astrobase CLI {version} 🧑‍🚀"
 
@@ -67,8 +65,8 @@ def init(astrobase_container_version: str = "latest"):
     )
 
 
-@app.command()
-def apply(
+@app.command("apply")
+def _apply(
     astrobase_yaml_path: str = typer.Option(..., "-f"),
     yaml_params: str = typer.Option(
         None,
@@ -80,6 +78,7 @@ def apply(
     """
     Apply clusters and resources.
     """
+    astrobase_apply = apply.Apply()
     params = YamlParams(params=yaml_params)
 
     with open(astrobase_yaml_path, "r") as f:
@@ -91,8 +90,8 @@ def apply(
         astrobase_apply.apply_resources(resources.resources)
 
 
-@app.command()
-def destroy(
+@app.command("destroy")
+def _destroy(
     astrobase_yaml_path: str = typer.Option(..., "-f"),
     yaml_params: str = typer.Option(
         None,
@@ -104,6 +103,7 @@ def destroy(
     """
     Destroy clusters and resources.
     """
+    astrobase_destroy = destroy.Destroy()
     params = YamlParams(params=yaml_params)
 
     with open(astrobase_yaml_path, "r") as f:
