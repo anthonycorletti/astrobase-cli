@@ -18,12 +18,12 @@ class AstrobaseConfig:
     ASTROBASE_PROFILE = "ASTROBASE_PROFILE"
     ASTROBASE_HOME_DIR = ".astrobase"
     ASTROBASE_CONFIG_FILENAME = "config.json"
-    ASTROBASE_CONFIG_FULLPATH = (
+    DEFAULT_ASTROBASE_CONFIG_FULLPATH = (
         f"{os.getenv('HOME')}/{ASTROBASE_HOME_DIR}/{ASTROBASE_CONFIG_FILENAME}"
     )
 
     def __init__(self):
-        self.config = self.ASTROBASE_CONFIG_FULLPATH
+        self.config = self.DEFAULT_ASTROBASE_CONFIG_FULLPATH
 
         try:
             self._setup_config_dir()
@@ -41,7 +41,9 @@ class AstrobaseConfig:
             )
 
     def _setup_config_dir(self) -> None:
-        os.makedirs(os.path.dirname(self.config))
+        dirname = os.path.dirname(self.config)
+        if dirname:
+            os.makedirs(dirname)
 
     def _setup_config_file(self) -> None:
         if not os.path.exists(self.config):
