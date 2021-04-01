@@ -58,7 +58,8 @@ class AstrobaseConfig:
 
 
 class AstrobaseDockerConfig:
-    DOCKER_GROUP = "astrobase"
+    CONTAINER_REGISTRY_DOMAIN = "gcr.io"
+    DOCKER_GROUP = "astrobaseco"
     DOCKER_CONTAINER_NAME = "astrobase"
     AWS_PROFILE_ENV_KEY = "AWS_PROFILE"
     AWS_CREDS_CONTAINER = "/aws-credentials"
@@ -75,9 +76,12 @@ class AstrobaseDockerConfig:
         auto_remove: bool = True,
         detach: bool = True,
         host_port: str = ASTROBASE_HOST_PORT,
+        container_registry_domain: str = CONTAINER_REGISTRY_DOMAIN,
     ):
+        self.container_registry_domain = container_registry_domain
         self.image = (
-            f"{self.DOCKER_GROUP}/{self.DOCKER_CONTAINER_NAME}:{container_version}"
+            f"{self.container_registry_domain}/{self.DOCKER_GROUP}/"
+            f"{self.DOCKER_CONTAINER_NAME}:{container_version}"
         )
         self.ports = {f"{host_port}/tcp": str(host_port)}
         self.auto_remove = auto_remove

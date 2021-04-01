@@ -1,0 +1,8 @@
+[run]
+
+source =
+    main.py
+    cli
+    tests
+
+parallel = True
