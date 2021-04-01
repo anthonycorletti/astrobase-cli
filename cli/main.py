@@ -45,7 +45,7 @@ def init(astrobase_container_version: str = "latest"):
             "No profile is set! set a profile with: export "
             f"{astrobase_config.ASTROBASE_PROFILE}=<my-profile-name>"
         )
-        return
+        raise typer.Exit(code=1)
     astrobase_docker_config = AstrobaseDockerConfig(
         container_version=astrobase_container_version,
         astrobase_config=astrobase_config,

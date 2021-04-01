@@ -1,7 +1,7 @@
 from typer.testing import CliRunner
 
 from cli import __version__ as cli_version
-from main import app
+from cli.main import app
 
 runner = CliRunner()
 

@@ -6,7 +6,7 @@ authors = ["Anthony Corletti <anthony@astrobase.co>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
-astrobase = "main:app"
+astrobase = "cli.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.9"

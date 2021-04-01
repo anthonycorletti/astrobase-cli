@@ -7,7 +7,6 @@ from cli.utils.config import ASTROBASE_HOST_PORT, AstrobaseConfig, AstrobaseProf
 from cli.utils.formatter import json_out
 
 app = typer.Typer(help="""Manage Astrobase profiles.""")
-astrobase_config = AstrobaseConfig()
 
 
 @app.command()
@@ -18,6 +17,7 @@ def create(
     aws_creds: str = typer.Option(None),
     aws_profile_name: str = typer.Option(None),
 ):
+    astrobase_config = AstrobaseConfig()
     new_profile = AstrobaseProfile(
         server=server,
         gcp_creds=gcp_creds,
@@ -29,17 +29,21 @@ def create(
     typer.echo(f"Created profile {name}.")
 
 
-@app.command("list")
-def _list(name: Optional[str] = None):
+@app.command("get")
+def get(name: Optional[str] = None):
+    astrobase_config = AstrobaseConfig()
     if name is not None:
         if name in astrobase_config.config_dict:
             typer.echo(json_out(astrobase_config.config_dict[name]))
+        else:
+            typer.echo(f"profile {name} not found")
     else:
         typer.echo(json_out(astrobase_config.config_dict))
 
 
 @app.command()
 def current():
+    astrobase_config = AstrobaseConfig()
     if astrobase_config.current_profile:
         profile_name = os.getenv(astrobase_config.ASTROBASE_PROFILE)
         profile_data = astrobase_config.current_profile.dict()
@@ -49,10 +53,12 @@ def current():
             "no profile is set! set a profile with: export "
             f"{astrobase_config.ASTROBASE_PROFILE}=<my-profile-name>"
         )
+        raise typer.Exit(code=1)
 
 
 @app.command()
-def delete(name: str):
+def delete(name: Optional[str] = None):
+    astrobase_config = AstrobaseConfig()
     typer.confirm(f"Are you sure you want to delete the {name} profile?")
     if name in astrobase_config.config_dict:
         del astrobase_config.config_dict[name]

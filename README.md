@@ -14,3 +14,5 @@ The official Astrobase CLI Client
 <a href="https://github.com/astrobase/cli/releases" target="_blank">
     <img src="https://img.shields.io/codecov/c/github/astrobase/cli?color=%2334D058" alt="Releases">
 </a>
+
+# installation and usage

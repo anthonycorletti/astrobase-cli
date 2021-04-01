@@ -1,8 +1,10 @@
 [run]
 
 source =
-    main.py
     cli
     tests
+
+omit =
+    *__init__.py
 
 parallel = True

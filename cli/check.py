@@ -19,5 +19,5 @@ def commands():
             command_message = f"{command.value} not found in path!"
         else:
             command_message = command_location
-        message += f"{command.value}: {command_message}\n"
+        message += f"{command.value} found at: {command_message}\n"
     typer.echo(message.strip())

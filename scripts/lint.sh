@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
-mypy main.py cli
-flake8 main.py cli tests
-black main.py cli tests --check
-isort main.py cli tests --check-only
+mypy cli
+flake8 cli tests
+black cli tests --check
+isort cli tests --check-only
