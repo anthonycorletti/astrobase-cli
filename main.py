@@ -3,7 +3,7 @@ import typer
 import yaml
 
 from cli import __version__ as version
-from cli import apply, destroy, profile
+from cli import apply, check, destroy, profile
 from cli.schemas.cluster import Clusters
 from cli.schemas.resource import ResourceList
 from cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
@@ -14,6 +14,7 @@ name = f"🚀 Astrobase CLI {version} 🧑‍🚀"
 
 app = typer.Typer(name=name)
 app.add_typer(profile.app, name="profile")
+app.add_typer(check.app, name="check")
 
 
 @app.callback()
