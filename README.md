@@ -1,3 +1,3 @@
-# astrobase_cli
+# cli
 
 The official Astrobase CLI Client

@@ -1,5 +1,6 @@
 import sys
 from contextlib import contextmanager
+from typing import Iterator
 
 import requests
 import typer
@@ -31,7 +32,7 @@ class GKEClient:
         )
 
     @contextmanager
-    def kube_api_client(self) -> None:
+    def kube_api_client(self) -> Iterator[None]:
         config.load_kube_config()
         yield client.ApiClient()
 

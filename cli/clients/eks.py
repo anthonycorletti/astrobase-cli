@@ -1,5 +1,6 @@
 import sys
 from contextlib import contextmanager
+from typing import Iterator
 
 import requests
 import typer
@@ -30,7 +31,7 @@ class EKSClient:
         )
 
     @contextmanager
-    def kube_api_client(self) -> None:
+    def kube_api_client(self) -> Iterator[None]:
         config.load_kube_config()
         yield client.ApiClient()
 
@@ -44,8 +45,13 @@ class EKSClient:
         typer.echo(json_out(res.json()))
 
     def destroy(self, cluster: dict) -> None:
-        cluster_url = f"{self.url}/{cluster.get('name')}"
-        nodegroup_names = [ng.get("nodegroupName") for ng in cluster.get("nodegroups")]
+        cluster_name = cluster.get("name")
+        cluster_url = f"{self.url}/{cluster_name}"
+        nodegroups = cluster.get("nodegroups")
+        if not nodegroups:
+            typer.echo(f"No nodegroups for cluster {cluster_name}")
+            return
+        nodegroup_names = [ng.get("nodegroupName") for ng in nodegroups]
         res = requests.delete(
             f"{cluster_url}?region={cluster.get('region')}", json=nodegroup_names
         )

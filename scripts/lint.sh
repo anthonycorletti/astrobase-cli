@@ -1,5 +1,5 @@
 #!/bin/sh -ex
 
-mypy cli
-black cli tests --check
-isort cli tests --check-only
+mypy main.py cli
+black main.py cli tests --check
+isort main.py cli tests --check-only

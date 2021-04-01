@@ -25,8 +25,8 @@ def main_callback():
 main_callback.__doc__ = name
 
 
-@app.command()
-def version():
+@app.command("version")
+def _version():
     """
     Print the Astrobase CLI version.
     """
@@ -87,8 +87,8 @@ def _apply(
         data = params.update_data_with_values(str(data))
         clusters = Clusters(**data)
         resources = ResourceList(**data)
-        astrobase_apply.apply_clusters(clusters.clusters)
-        astrobase_apply.apply_resources(resources.resources)
+        astrobase_apply.apply_clusters(clusters)
+        astrobase_apply.apply_resources(resources)
 
 
 @app.command("destroy")
@@ -112,8 +112,8 @@ def _destroy(
         data = params.update_data_with_values(str(data))
         clusters = Clusters(**data)
         resources = ResourceList(**data)
-        astrobase_destroy.destroy_clusters(clusters.clusters)
-        astrobase_destroy.destroy_resources(resources.resources)
+        astrobase_destroy.destroy_clusters(clusters)
+        astrobase_destroy.destroy_resources(resources)
 
 
 if __name__ == "__main__":

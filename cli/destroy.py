@@ -9,12 +9,12 @@ class Destroy:
         self.clients = {"eks": EKSClient(), "gke": GKEClient()}
 
     def destroy_clusters(self, clusters: Clusters) -> None:
-        for cluster in clusters:
+        for cluster in clusters.clusters:
             client = self.clients.get(cluster.get("provider"))
             client.destroy(cluster)
 
     def destroy_resources(self, resources: ResourceList) -> None:
-        for resource in resources:
+        for resource in resources.resources:
             client = self.clients.get(resource.provider)
             kubernetes_resource_location = resource.resource_location
             cluster_name = resource.cluster_name
