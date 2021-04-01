@@ -1,0 +1,16 @@
+apiVersion: 0.1.0
+clusters:
+    - name: test-gke
+      provider: gke
+      location: us-central1
+      project_id: $PROJECT_ID
+      resourceLabels:
+          my_key: my_value
+      nodePools:
+          - name: cpu-test-nodepool
+            initialNodeCount: 1
+            config:
+                metadata:
+                    machine_key: machine_value
+                labels:
+                    kube_key: kube_value
