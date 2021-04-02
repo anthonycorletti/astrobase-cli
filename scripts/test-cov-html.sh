@@ -1,3 +1,3 @@
-#!/usr/bin/env bash -ex
+#!/bin/sh -ex
 
 ./scripts/test.sh --cov-report=html ${@}

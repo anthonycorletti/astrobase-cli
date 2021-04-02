@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -ex
+#!/bin/sh -ex
 
 mypy cli
 flake8 cli tests
