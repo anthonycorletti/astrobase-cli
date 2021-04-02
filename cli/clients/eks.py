@@ -1,12 +1,7 @@
-import sys
-from contextlib import contextmanager
-from typing import Iterator
-
 import requests
 import typer
-from kubernetes import client, config
-from sh import aws, kubectl
 
+from cli.clients.kubernetes import Kubernetes
 from cli.utils.config import AstrobaseConfig
 from cli.utils.formatter import json_out
 
@@ -17,23 +12,7 @@ class EKSClient:
     def __init__(self):
         server = astrobase_config.current_profile.server
         self.url = f"{server}/eks"
-
-    def get_kubeconfig_credentials(
-        self, cluster_name: str, cluster_location: str
-    ) -> None:
-        aws(
-            "eks",
-            "--region",
-            cluster_location,
-            "update-kubeconfig",
-            "--name",
-            cluster_name,
-        )
-
-    @contextmanager
-    def kube_api_client(self) -> Iterator[None]:
-        config.load_kube_config()
-        yield client.ApiClient()
+        self.kubernetes = Kubernetes(via="aws")
 
     def create(self, cluster: dict) -> None:
         for nodegroup in cluster.get("nodegroups", []):
@@ -59,13 +38,9 @@ class EKSClient:
         cluster_name: str,
         cluster_location: str,
     ) -> None:
-        self.get_kubeconfig_credentials(cluster_name, cluster_location)
-        typer.echo(f"applying resources to {cluster_name}@{cluster_location}")
-        with self.kube_api_client() as kube_api_client:
-            if not kube_api_client:
-                typer.echo("no kubernetes api client provisioned")
-                raise typer.Exit(1)
-            kubectl("apply", "-f", f"{kubernetes_resource_location}", _out=sys.stdout)
+        self.kubernetes.apply(  # pragma: no cover
+            kubernetes_resource_location, cluster_name, cluster_location
+        )
 
     def destroy_kubernetes_resources(
         self,
@@ -73,10 +48,6 @@ class EKSClient:
         cluster_name: str,
         cluster_location: str,
     ) -> None:
-        self.get_kubeconfig_credentials(cluster_name, cluster_location)
-        typer.echo(f"destroying resources in {cluster_name}@{cluster_location}")
-        with self.kube_api_client() as kube_api_client:
-            if not kube_api_client:
-                typer.echo("no kubernetes api client provisioned")
-                raise typer.Exit(1)
-            kubectl("delete", "-f", f"{kubernetes_resource_location}", _out=sys.stdout)
+        self.kubernetes.destroy(  # pragma: no cover
+            kubernetes_resource_location, cluster_name, cluster_location
+        )

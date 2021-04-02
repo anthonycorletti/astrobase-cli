@@ -15,12 +15,9 @@ class Destroy:
 
     def destroy_resources(self, resources: ResourceList) -> None:
         for resource in resources.resources:
-            client = self.clients.get(resource.provider)
-            kubernetes_resource_location = resource.resource_location
-            cluster_name = resource.cluster_name
-            cluster_location = resource.cluster_location
-            client.destroy_kubernetes_resources(
-                kubernetes_resource_location=kubernetes_resource_location,
-                cluster_name=cluster_name,
-                cluster_location=cluster_location,
+            client = self.clients.get(resource.provider)  # pragma: no cover
+            client.destroy_kubernetes_resources(  # pragma: no cover
+                kubernetes_resource_location=resource.resource_location,
+                cluster_name=resource.cluster_name,
+                cluster_location=resource.cluster_location,
             )
