@@ -10,15 +10,14 @@ runner = CliRunner()
 
 
 def test_empty_config_setting():
-    config_path = "test-config.json"
     astrobase_config = AstrobaseConfig()
-    assert astrobase_config.config == config_path
-    with open(config_path) as test_config:
+    assert astrobase_config.config == "test-config.json"
+    with open("test-config.json") as test_config:
         data = json.load(test_config)
         assert data == {}
 
 
-def test_docker_config():
+def test_config():
     runner.invoke(
         app,
         [
@@ -39,3 +38,4 @@ def test_docker_config():
         astrobase_config=astrobase_config,
     )
     assert astrobase_docker_config.name == "astrobase-test-profile"
+    assert astrobase_config.current_profile.server == "http://localhost:8787"

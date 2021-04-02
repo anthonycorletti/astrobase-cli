@@ -2,6 +2,7 @@ import json
 import os
 from typing import Optional
 
+import typer
 from pydantic import BaseModel
 
 ASTROBASE_HOST_PORT = os.getenv("ASTROBASE_HOST_PORT", "8787")
@@ -16,14 +17,13 @@ class AstrobaseProfile(BaseModel):
 
 class AstrobaseConfig:
     ASTROBASE_PROFILE = "ASTROBASE_PROFILE"
-    ASTROBASE_HOME_DIR = ".astrobase"
-    ASTROBASE_CONFIG_FILENAME = "config.json"
-    DEFAULT_ASTROBASE_CONFIG_FULLPATH = (
-        f"{os.getenv('HOME')}/{ASTROBASE_HOME_DIR}/{ASTROBASE_CONFIG_FILENAME}"
-    )
+    ASTROBASE_CONFIG = "ASTROBASE_CONFIG"
+    DEFAULT_ASTROBASE_CONFIG_FULLPATH = f"{os.getenv('HOME')}/.astrobase/config.json"
 
     def __init__(self):
-        self.config = self.DEFAULT_ASTROBASE_CONFIG_FULLPATH
+        self.config = os.getenv(
+            self.ASTROBASE_CONFIG, self.DEFAULT_ASTROBASE_CONFIG_FULLPATH
+        )
 
         try:
             self._setup_config_dir()
@@ -33,9 +33,16 @@ class AstrobaseConfig:
 
         self.config_dict = self._load_config_file()
         self.profile_name = os.getenv(self.ASTROBASE_PROFILE)
-        self.current_profile = None
+        if not self.profile_name:
+            typer.echo(
+                "ASTROBASE_PROFILE not set! Set it with "
+                "export ASTROBASE_PROFILE=<your-profile-name>"
+            )
+            raise typer.Exit(1)
 
-        if self.config_dict and self.profile_name in self.config_dict:
+        self.current_profile = AstrobaseProfile()
+
+        if self.profile_name in self.config_dict:
             self.current_profile = AstrobaseProfile(
                 **self.config_dict[self.profile_name]
             )

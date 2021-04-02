@@ -44,16 +44,9 @@ def get(name: Optional[str] = None):
 @app.command()
 def current():
     astrobase_config = AstrobaseConfig()
-    if astrobase_config.current_profile:
-        profile_name = os.getenv(astrobase_config.ASTROBASE_PROFILE)
-        profile_data = astrobase_config.current_profile.dict()
-        typer.echo(json_out({profile_name: profile_data}))
-    else:
-        typer.echo(
-            "no profile is set! set a profile with: export "
-            f"{astrobase_config.ASTROBASE_PROFILE}=<my-profile-name>"
-        )
-        raise typer.Exit(code=1)
+    profile_name = os.getenv(astrobase_config.ASTROBASE_PROFILE)
+    profile_data = astrobase_config.current_profile.dict()
+    typer.echo(json_out({profile_name: profile_data}))
 
 
 @app.command()

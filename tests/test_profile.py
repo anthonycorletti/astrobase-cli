@@ -68,4 +68,7 @@ def test_profile_current_not_set():
     del os.environ[AstrobaseConfig.ASTROBASE_PROFILE]
     result = runner.invoke(app, ["profile", "current"])
     assert result.exit_code == 1
-    assert "no profile is set! set a profile with: export" in result.stdout
+    assert (
+        "ASTROBASE_PROFILE not set! Set it with export "
+        "ASTROBASE_PROFILE=<your-profile-name>\n" == result.stdout
+    )

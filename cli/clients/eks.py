@@ -5,13 +5,11 @@ from cli.clients.kubernetes import Kubernetes
 from cli.utils.config import AstrobaseConfig
 from cli.utils.formatter import json_out
 
-astrobase_config = AstrobaseConfig()
-
 
 class EKSClient:
     def __init__(self):
-        server = astrobase_config.current_profile.server
-        self.url = f"{server}/eks"
+        astrobase_config = AstrobaseConfig()
+        self.url = f"{astrobase_config.current_profile.server}/eks"
         self.kubernetes = Kubernetes(via="aws")
 
     def create(self, cluster: dict) -> None:

@@ -1,18 +1,20 @@
 import os
 
 import pytest
+from typer.testing import CliRunner
 
 from cli.utils.config import AstrobaseConfig
 
-test_profile_name = "test-profile"
+runner = CliRunner()
 
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_astrobase_test_config():
-    AstrobaseConfig.DEFAULT_ASTROBASE_CONFIG_FULLPATH = "test-config.json"
-    os.environ[AstrobaseConfig.ASTROBASE_PROFILE] = test_profile_name
+    os.environ[AstrobaseConfig.ASTROBASE_PROFILE] = "test-profile"
+    os.environ[AstrobaseConfig.ASTROBASE_CONFIG] = "test-config.json"
     yield
+    # we try here because not every test will use a profile
     try:
-        os.remove(AstrobaseConfig.DEFAULT_ASTROBASE_CONFIG_FULLPATH)
+        os.remove(os.environ[AstrobaseConfig.ASTROBASE_CONFIG])
     except FileNotFoundError:
         pass
