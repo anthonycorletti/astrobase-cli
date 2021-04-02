@@ -8,6 +8,13 @@ The Astrobase CLI Client
 [![Coverage Status](https://codecov.io/github/astrobase/cli/coverage.svg?branch=master)](https://codecov.io/github/astrobase/cli)
 
 
-## installation and usage
+## Installation
 
-_todo_
+
+### Features and Usage
+
+### Checks
+
+### Profiles
+
+### Apply and Destroy
