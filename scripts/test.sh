@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/usr/bin/env bash -ex
 
 ./scripts/lint.sh
 
