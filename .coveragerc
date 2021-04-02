@@ -6,5 +6,6 @@ source =
 omit =
     *__init__.py
     cli/clients/kubernetes.py
+    cli/init.py
 
 parallel = True

@@ -1,12 +1,29 @@
 import json
+import os
 
 import requests  # noqa
 from typer.testing import CliRunner
 
 from cli.main import app
+from cli.utils.config import AstrobaseConfig
 
 runner = CliRunner()
 mock_server = "http://localhost:8787"
+
+runner.invoke(
+    app,
+    [
+        "profile",
+        "create",
+        os.environ[AstrobaseConfig.ASTROBASE_PROFILE],
+        "--gcp-creds",
+        "test-gcp",
+        "--aws-creds",
+        "test-aws",
+        "--aws-profile-name",
+        "test-aws",
+    ],
+)
 
 
 def test_apply_gke_cluster(requests_mock):

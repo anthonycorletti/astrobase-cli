@@ -9,23 +9,23 @@ from cli.utils.config import AstrobaseConfig
 
 runner = CliRunner()
 mock_server = "http://localhost:8787"
+runner.invoke(
+    app,
+    [
+        "profile",
+        "create",
+        os.environ[AstrobaseConfig.ASTROBASE_PROFILE],
+        "--gcp-creds",
+        "test-gcp",
+        "--aws-creds",
+        "test-aws",
+        "--aws-profile-name",
+        "test-aws",
+    ],
+)
 
 
 def test_apply_eks_cluster(requests_mock):
-    runner.invoke(
-        app,
-        [
-            "profile",
-            "create",
-            os.environ[AstrobaseConfig.ASTROBASE_PROFILE],
-            "--gcp-creds",
-            "test-gcp",
-            "--aws-creds",
-            "test-aws",
-            "--aws-profile-name",
-            "test-aws",
-        ],
-    )
     requests_mock.post(
         f"{mock_server}/eks",
         json={"message": "EKS create request submitted for test-eks-cluster"},
