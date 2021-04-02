@@ -23,8 +23,6 @@ class YamlParams(BaseModel):
         if not self.params:
             return {}
         pairs = self.params.split()
-        if not pairs:
-            return {}
         return {
             f"${pair.split('=')[0]}": pair.split("=")[1]
             for pair in pairs

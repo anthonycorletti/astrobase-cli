@@ -114,7 +114,3 @@ def _destroy(
         resources = ResourceList(**data)
         astrobase_destroy.destroy_clusters(clusters)
         astrobase_destroy.destroy_resources(resources)
-
-
-if __name__ == "__main__":
-    app()

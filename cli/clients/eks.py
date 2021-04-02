@@ -46,15 +46,11 @@ class EKSClient:
 
     def destroy(self, cluster: dict) -> None:
         cluster_name = cluster.get("name")
-        cluster_url = f"{self.url}/{cluster_name}"
-        nodegroups = cluster.get("nodegroups")
-        if not nodegroups:
-            typer.echo(f"No nodegroups for cluster {cluster_name}")
-            return
+        cluster_region = cluster.get("region")
+        cluster_url = f"{self.url}/{cluster_name}?region={cluster_region}"
+        nodegroups = cluster.get("nodegroups", [])
         nodegroup_names = [ng.get("nodegroupName") for ng in nodegroups]
-        res = requests.delete(
-            f"{cluster_url}?region={cluster.get('region')}", json=nodegroup_names
-        )
+        res = requests.delete(cluster_url, json=nodegroup_names)
         typer.echo(json_out(res.json()))
 
     def apply_kubernetes_resources(

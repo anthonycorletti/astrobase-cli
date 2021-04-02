@@ -1,6 +1,6 @@
 apiVersion: 0.1.0
 clusters:
-    - name: astrobase-test-eks
+    - name: test-eks
       provider: eks
       region: us-east-1
       roleArn: $CLUSTER_ROLE_ARN

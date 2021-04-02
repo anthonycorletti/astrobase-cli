@@ -11,7 +11,7 @@ astrobase_config = AstrobaseConfig()
 
 
 def cleanup_init_container(container_name: str):
-    subprocess.run(["docker", "kill", container_name])
+    subprocess.run(["docker", "kill", container_name], stdout=subprocess.DEVNULL)
 
 
 def test_init():
