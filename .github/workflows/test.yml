@@ -21,9 +21,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: install poetry
         run: pip install poetry
+      - name: configue poetry
+        run: poetry config virtualenvs.create false
       - name: install dependencies
         run: poetry install
       - name: test
-        run: which mypy; scripts/test.sh
+        run: scripts/test.sh
       - name: upload coverage
         uses: codecov/codecov-action@v1
