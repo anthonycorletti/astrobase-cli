@@ -3,9 +3,9 @@
 The Astrobase CLI Client
 
 [![License](https://img.shields.io/badge/Astrobase-License-blue.svg)](https://github.com/astrobase/cli/blob/master/LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/astrobase/cli?sort=semver)](https://github.com/astrobase/cli/tree/latest)
-[![Build Status](https://github.com/astrobase/cli/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/astrobase/cli/actions/workflows/test.yml)
-[![Coverage Status](https://codecov.io/github/astrobase/cli/coverage.svg?branch=master)](https://codecov.io/github/astrobase/cli)
+[![Release](https://img.shields.io/github/v/Release/astrobase/cli?sort=semver)](https://github.com/astrobase/cli/tree/latest)
+[![Build](https://github.com/astrobase/cli/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/astrobase/cli/actions/workflows/test.yml)
+[![Coverage](https://codecov.io/github/astrobase/cli/coverage.svg?branch=master)](https://codecov.io/github/astrobase/cli)
 
 
 ## Installation
