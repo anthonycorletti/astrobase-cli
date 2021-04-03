@@ -125,7 +125,3 @@ def test_destroy_gke_cluster(requests_mock):
     )
     assert result.exit_code == 0
     assert "DELETE_CLUSTER" == json.loads(result.stdout).get("operationType")
-
-
-def test_apply_resources_gke_cluster(requests_mock):
-    pass

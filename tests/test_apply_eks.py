@@ -31,7 +31,6 @@ def test_apply_eks_cluster(requests_mock):
         f"{mock_server}/eks",
         json={"message": "EKS create request submitted for test-eks-cluster"},
     )
-    print(open("test-config.json").read())
     result = runner.invoke(
         app,
         [

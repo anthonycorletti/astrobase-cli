@@ -4,18 +4,13 @@ import typer
 from cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
 
 docker_client = docker.from_env()
+astrobase_config = AstrobaseConfig()
 
 
 class Initializer:
     def docker_run(self, astrobase_container_version: str) -> None:
         astrobase_config = AstrobaseConfig()
         typer.echo("Initializing Astrobase ... ")
-        if not astrobase_config.current_profile:
-            typer.echo(
-                "No profile is set! set a profile with: export "
-                f"{astrobase_config.ASTROBASE_PROFILE}=<my-profile-name>"
-            )
-            raise typer.Exit(code=1)
         astrobase_docker_config = AstrobaseDockerConfig(
             container_version=astrobase_container_version,
             astrobase_config=astrobase_config,
@@ -32,5 +27,5 @@ class Initializer:
         )
         typer.echo(
             "Astrobase initialized and running at "
-            f"{astrobase_config.current_profile.server}"
+            f"{astrobase_config.current_profile().server}"
         )

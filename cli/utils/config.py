@@ -9,6 +9,7 @@ ASTROBASE_HOST_PORT = os.getenv("ASTROBASE_HOST_PORT", "8787")
 
 
 class AstrobaseProfile(BaseModel):
+    name: str
     server: str = f"http://localhost:{ASTROBASE_HOST_PORT}"
     gcp_creds: Optional[str]
     aws_creds: Optional[str]
@@ -17,53 +18,46 @@ class AstrobaseProfile(BaseModel):
 
 class AstrobaseConfig:
     ASTROBASE_PROFILE = "ASTROBASE_PROFILE"
-    ASTROBASE_CONFIG = "ASTROBASE_CONFIG"
-    DEFAULT_ASTROBASE_CONFIG_FULLPATH = f"{os.getenv('HOME')}/.astrobase/config.json"
+    ASTROBASE_CONFIG_FILE = "ASTROBASE_CONFIG"
+    DEFAULT_ASTROBASE_CONFIG_FILE = f"{os.getenv('HOME')}/.astrobase/config.json"
 
     def __init__(self):
-        self.config = os.getenv(
-            self.ASTROBASE_CONFIG, self.DEFAULT_ASTROBASE_CONFIG_FULLPATH
+        self.config_file = os.getenv(
+            self.ASTROBASE_CONFIG_FILE,
+            self.DEFAULT_ASTROBASE_CONFIG_FILE,
         )
-
-        try:
-            self._setup_config_dir()
-            self._setup_config_file()
-        except FileExistsError:
-            pass
-
-        self.config_dict = self._load_config_file()
-        self.profile_name = os.getenv(self.ASTROBASE_PROFILE)
-        if not self.profile_name:
-            typer.echo(
-                "ASTROBASE_PROFILE not set! Set it with "
-                "export ASTROBASE_PROFILE=<your-profile-name>"
-            )
-            raise typer.Exit(1)
-
-        self.current_profile = AstrobaseProfile()
-
-        if self.profile_name in self.config_dict:
-            self.current_profile = AstrobaseProfile(
-                **self.config_dict[self.profile_name]
-            )
+        self._setup_config_dir()
+        self._setup_config_file()
+        self.config = self._load_config_file()
 
     def _setup_config_dir(self) -> None:
-        dirname = os.path.dirname(self.config)
+        dirname = os.path.dirname(self.config_file)
         if dirname:
             os.makedirs(dirname)
 
     def _setup_config_file(self) -> None:
-        if not os.path.exists(self.config):
-            with open(self.config, "w+") as f:
+        if not os.path.exists(self.config_file):
+            with open(self.config_file, "w+") as f:
                 f.write("{}")
 
     def _load_config_file(self) -> dict:
-        with open(self.config) as f:
+        with open(self.config_file) as f:
             return json.load(f)
 
     def write_config(self, data: dict) -> None:
-        with open(self.config, "w+") as f:
+        with open(self.config_file, "w+") as f:
             f.write(json.dumps(data))
+
+    def current_profile(self) -> AstrobaseProfile:
+        profile_name = os.getenv(self.ASTROBASE_PROFILE)
+        if not profile_name or profile_name not in self.config:
+            typer.echo(
+                "ASTROBASE_PROFILE environment variable is not set properly.\n"
+                "Please set it with `export ASTROBASE_PROFILE=<your-profile-name>`\n"
+                "View profile names with `astrobase profile get | jq 'keys'`"
+            )
+            raise typer.Exit(1)
+        return AstrobaseProfile(**self.config.get(profile_name))
 
 
 class AstrobaseDockerConfig:
@@ -95,7 +89,7 @@ class AstrobaseDockerConfig:
         self.ports = {f"{host_port}/tcp": str(host_port)}
         self.auto_remove = auto_remove
         self.detach = detach
-        self.name = f"astrobase-{astrobase_config.profile_name}"
+        self.name = f"astrobase-{astrobase_config.current_profile().name}"
         self.astrobase_config = astrobase_config
         self.volumes = volumes
         self.environment = environment
@@ -104,7 +98,7 @@ class AstrobaseDockerConfig:
         self._configure_gcp()
 
     def _configure_gcp(self) -> None:
-        host_gcp_creds = self.astrobase_config.current_profile.gcp_creds
+        host_gcp_creds = self.astrobase_config.current_profile().gcp_creds
         if host_gcp_creds:
             self.environment[
                 self.GOOGLE_APPLICATION_CREDS_ENV_KEY
@@ -115,13 +109,13 @@ class AstrobaseDockerConfig:
             }
 
     def _configure_aws(self) -> None:
-        host_aws_creds = self.astrobase_config.current_profile.aws_creds
+        host_aws_creds = self.astrobase_config.current_profile().aws_creds
         if host_aws_creds:
             self.volumes[host_aws_creds] = {
                 "bind": self.AWS_CREDS_CONTAINER,
                 "mode": "ro",
             }
-        aws_profile_name = self.astrobase_config.current_profile.aws_profile_name
+        aws_profile_name = self.astrobase_config.current_profile().aws_profile_name
         if aws_profile_name:
             self.environment[
                 self.AWS_SHARED_CREDS_FILE_ENV_KEY
