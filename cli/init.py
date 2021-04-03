@@ -4,7 +4,6 @@ import typer
 from cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
 
 docker_client = docker.from_env()
-astrobase_config = AstrobaseConfig()
 
 
 class Initializer:
