@@ -7,18 +7,18 @@ from typer.testing import CliRunner
 from cli.main import app
 from cli.utils.config import AstrobaseConfig
 
-AstrobaseConfig.DEFAULT_ASTROBASE_CONFIG_FULLPATH = "test-config.json"
 runner = CliRunner()
 mock_server = "http://localhost:8787"
 
 
 def test_apply_eks_cluster(requests_mock):
+    profile_name = os.environ[AstrobaseConfig.ASTROBASE_PROFILE]
     runner.invoke(
         app,
         [
             "profile",
             "create",
-            os.environ[AstrobaseConfig.ASTROBASE_PROFILE],
+            profile_name,
             "--gcp-creds",
             "test-gcp",
             "--aws-creds",

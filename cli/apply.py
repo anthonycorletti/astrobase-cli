@@ -6,11 +6,11 @@ from cli.schemas.resource import ResourceList
 
 class Apply:
     def __init__(self):
-        self.clients = {"eks": EKSClient(), "gke": GKEClient()}
+        self.clients = {"eks": EKSClient, "gke": GKEClient}
 
     def apply_clusters(self, clusters: Clusters) -> None:
         for cluster in clusters.clusters:
-            client = self.clients.get(cluster.get("provider"))
+            client = self.clients.get(cluster.get("provider"))()
             client.create(cluster)
 
     def apply_resources(self, resources: ResourceList) -> None:

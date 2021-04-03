@@ -48,10 +48,9 @@ def test_profile_current():
     test_profile_name = os.getenv(AstrobaseConfig.ASTROBASE_PROFILE)
     result = runner.invoke(app, ["profile", "current"])
     assert result.exit_code == 0
-    config = json.loads(result.stdout)
-    assert test_profile_name in config
-    assert "server" in config.get(test_profile_name)
-    assert "http://localhost:8787" in config.get(test_profile_name).get("server")
+    profile = json.loads(result.stdout)
+    assert profile.get("name") == test_profile_name
+    assert profile.get("server") == "http://localhost:8787"
 
 
 def test_profile_delete():
@@ -69,6 +68,5 @@ def test_profile_current_not_set():
     result = runner.invoke(app, ["profile", "current"])
     assert result.exit_code == 1
     assert (
-        "ASTROBASE_PROFILE not set! Set it with export "
-        "ASTROBASE_PROFILE=<your-profile-name>\n" == result.stdout
+        "ASTROBASE_PROFILE environment variable is not set properly." in result.stdout
     )

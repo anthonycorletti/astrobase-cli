@@ -6,13 +6,11 @@ from cli.utils.config import AstrobaseConfig
 from cli.utils.formatter import json_out
 from cli.utils.http import query_str
 
-astrobase_config = AstrobaseConfig()
-
 
 class GKEClient:
     def __init__(self):
-        server = astrobase_config.current_profile.server
-        self.url = f"{server}/gke"
+        astrobase_config = AstrobaseConfig()
+        self.url = f"{astrobase_config.current_profile().server}/gke"
         self.kubernetes = Kubernetes(via="gcloud")
 
     def create(self, cluster: dict) -> None:
