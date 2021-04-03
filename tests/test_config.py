@@ -55,5 +55,8 @@ def test_make_config_file_dirs():
     with open(os.environ[AstrobaseConfig.ASTROBASE_CONFIG_FILE]) as f:
         assert {} == json.load(f)
     os.remove(os.environ[AstrobaseConfig.ASTROBASE_CONFIG_FILE])
-    shutil.rmtree("de/path/to")
+    shutil.rmtree("de")
     os.environ[AstrobaseConfig.ASTROBASE_CONFIG_FILE] = "test-config.json"
+
+
+P
