@@ -58,5 +58,3 @@ def test_make_config_file_dirs():
     shutil.rmtree("de")
     os.environ[AstrobaseConfig.ASTROBASE_CONFIG_FILE] = "test-config.json"
 
-
-P
