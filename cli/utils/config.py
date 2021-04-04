@@ -31,9 +31,10 @@ class AstrobaseConfig:
         self.config = self._load_config_file()
 
     def _setup_config_dir(self) -> None:
-        dirname = os.path.dirname(self.config_file)
-        if dirname:
-            os.makedirs(dirname)
+        if not os.path.exists(self.config_file):
+            dirname = os.path.dirname(self.config_file)
+            if dirname:
+                os.makedirs(dirname)
 
     def _setup_config_file(self) -> None:
         if not os.path.exists(self.config_file):
