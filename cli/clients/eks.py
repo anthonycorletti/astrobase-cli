@@ -13,11 +13,6 @@ class EKSClient:
         self.kubernetes = Kubernetes(via="aws")
 
     def create(self, cluster: dict) -> None:
-        for nodegroup in cluster.get("nodegroups", []):
-            nodegroup["clusterName"] = cluster.get("name")
-            nodegroup["subnets"] = cluster.get("resourcesVpcConfig", {}).get(
-                "subnetIds", []
-            )
         res = requests.post(self.url, json=cluster)
         typer.echo(json_out(res.json()))
 
