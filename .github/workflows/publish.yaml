@@ -16,5 +16,8 @@ jobs:
           python-version: "3.9"
       - name: install flit
         run: pip install flit
-      - name: publish
-        run: echo "TODO!"
+      - name: publish-pypi
+        env:
+          FLIT_USERNAME: ${{ secrets.FLIT_USERNAME }}
+          FLIT_PASSWORD: ${{ secrets.FLIT_PASSWORD }}
+        run: scripts/publish.sh
