@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-flit install --deps all --symlink
+flit install --deps=all --extras=all --symlink
