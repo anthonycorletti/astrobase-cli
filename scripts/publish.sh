@@ -1,3 +1,3 @@
 #!/bin/sh -ex
 
-poetry publish
+# coming soon!
