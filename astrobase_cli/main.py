@@ -1,11 +1,11 @@
 import typer
 import yaml
 
-from cli import __version__ as version
-from cli import apply, check, destroy, init, profile
-from cli.schemas.cluster import Clusters
-from cli.schemas.resource import ResourceList
-from cli.utils.params import YamlParams
+from astrobase_cli import __version__ as version
+from astrobase_cli import apply, check, destroy, init, profile
+from astrobase_cli.schemas.cluster import Clusters
+from astrobase_cli.schemas.resource import ResourceList
+from astrobase_cli.utils.params import YamlParams
 
 name = f"🚀 Astrobase CLI {version} 🧑‍🚀"
 

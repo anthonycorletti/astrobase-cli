@@ -2,4 +2,4 @@
 
 ./scripts/lint.sh
 
-pytest --cov=cli --cov=tests --cov-report=term-missing --cov-report=xml -o console_output_style=progress ${@}
+pytest --cov=astrobase_cli --cov=tests --cov-report=term-missing --cov-report=xml -o console_output_style=progress ${@}

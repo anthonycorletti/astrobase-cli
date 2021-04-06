@@ -1,28 +1,29 @@
 import requests
 import typer
 
-from cli.clients.kubernetes import Kubernetes
-from cli.utils.config import AstrobaseConfig
-from cli.utils.formatter import json_out
+from astrobase_cli.clients.kubernetes import Kubernetes
+from astrobase_cli.utils.config import AstrobaseConfig
+from astrobase_cli.utils.formatter import json_out
+from astrobase_cli.utils.http import query_str
 
 
-class EKSClient:
+class GKEClient:
     def __init__(self):
         astrobase_config = AstrobaseConfig()
-        self.url = f"{astrobase_config.current_profile().server}/eks"
-        self.kubernetes = Kubernetes(via="aws")
+        self.url = f"{astrobase_config.current_profile().server}/gke"
+        self.kubernetes = Kubernetes(via="gcloud")
 
     def create(self, cluster: dict) -> None:
         res = requests.post(self.url, json=cluster)
         typer.echo(json_out(res.json()))
 
     def destroy(self, cluster: dict) -> None:
-        cluster_name = cluster.get("name")
-        cluster_region = cluster.get("region")
-        cluster_url = f"{self.url}/{cluster_name}?region={cluster_region}"
-        nodegroups = cluster.get("nodegroups", [])
-        nodegroup_names = [ng.get("nodegroupName") for ng in nodegroups]
-        res = requests.delete(cluster_url, json=nodegroup_names)
+        params = {
+            "location": cluster.get("location"),
+            "project_id": cluster.get("project_id"),
+        }
+        cluster_url = f"{self.url}/{cluster.get('name')}?{query_str(params)}"
+        res = requests.delete(cluster_url)
         typer.echo(json_out(res.json()))
 
     def apply_kubernetes_resources(

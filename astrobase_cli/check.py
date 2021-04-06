@@ -2,7 +2,7 @@ import shutil
 
 import typer
 
-from cli.schemas.command import Command
+from astrobase_cli.schemas.command import Command
 
 app = typer.Typer(help="Run preflight and status checks.")
 

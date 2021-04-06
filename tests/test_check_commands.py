@@ -2,7 +2,7 @@ import os
 
 from typer.testing import CliRunner
 
-from cli.main import app
+from astrobase_cli.main import app
 
 runner = CliRunner()
 

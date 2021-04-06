@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
-mypy cli
-flake8 cli tests
-black cli tests --check
-isort cli tests --check-only
+mypy astrobase_cli
+flake8 astrobase_cli tests
+black astrobase_cli tests --check
+isort astrobase_cli tests --check-only

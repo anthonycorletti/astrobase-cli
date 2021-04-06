@@ -4,8 +4,8 @@ import shutil
 
 from typer.testing import CliRunner
 
-from cli.main import app
-from cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
+from astrobase_cli.main import app
+from astrobase_cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
 
 runner = CliRunner()
 

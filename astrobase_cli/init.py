@@ -1,7 +1,7 @@
 import docker
 import typer
 
-from cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
+from astrobase_cli.utils.config import AstrobaseConfig, AstrobaseDockerConfig
 
 docker_client = docker.from_env()
 

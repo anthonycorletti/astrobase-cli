@@ -3,7 +3,7 @@ import os
 import pytest
 from typer.testing import CliRunner
 
-from cli.utils.config import AstrobaseConfig
+from astrobase_cli.utils.config import AstrobaseConfig
 
 runner = CliRunner()
 os.environ[AstrobaseConfig.ASTROBASE_PROFILE] = "test-profile"

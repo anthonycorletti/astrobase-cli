@@ -4,8 +4,8 @@ import os
 import requests  # noqa
 from typer.testing import CliRunner
 
-from cli.main import app
-from cli.utils.config import AstrobaseConfig
+from astrobase_cli.main import app
+from astrobase_cli.utils.config import AstrobaseConfig
 
 runner = CliRunner()
 mock_server = "http://localhost:8787"

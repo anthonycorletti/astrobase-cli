@@ -1,7 +1,7 @@
-from cli.clients.eks import EKSClient
-from cli.clients.gke import GKEClient
-from cli.schemas.cluster import Clusters
-from cli.schemas.resource import ResourceList
+from astrobase_cli.clients.eks import EKSClient
+from astrobase_cli.clients.gke import GKEClient
+from astrobase_cli.schemas.cluster import Clusters
+from astrobase_cli.schemas.resource import ResourceList
 
 
 class Destroy:
