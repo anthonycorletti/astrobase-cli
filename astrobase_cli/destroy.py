@@ -6,7 +6,7 @@ from astrobase_cli.schemas.resource import ResourceList
 
 class Destroy:
     def __init__(self):
-        self.clients = {"eks": EKSClient(), "gke": GKEClient()}
+        self.clients = {"eks": EKSClient, "gke": GKEClient}
 
     def destroy_clusters(self, clusters: Clusters) -> None:
         for cluster in clusters.clusters:
@@ -15,7 +15,7 @@ class Destroy:
 
     def destroy_resources(self, resources: ResourceList) -> None:
         for resource in resources.resources:
-            client = self.clients.get(resource.provider)  # pragma: no cover
+            client = self.clients.get(resource.provider)()  # pragma: no cover
             client.destroy_kubernetes_resources(  # pragma: no cover
                 kubernetes_resource_location=resource.resource_location,
                 cluster_name=resource.cluster_name,

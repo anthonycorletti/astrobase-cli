@@ -10,7 +10,7 @@ resources:
     provider: eks
     cluster_name: astrobase-test-eks
     cluster_location: us-east-1
-    resource_location: test/assets/kubernetes
+    resource_location: tests/assets/kubernetes
 
   - name: kubernetes-dashboard
     provider: gke
@@ -22,4 +22,4 @@ resources:
     provider: gke
     cluster_name: astrobase-test-gke
     cluster_location: us-central1
-    resource_location: test/assets/kubernetes
+    resource_location: tests/assets/kubernetes

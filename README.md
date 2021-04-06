@@ -1,4 +1,4 @@
-# cli
+# astrobase_cli
 
 The [Astrobase](https://github.com/astrobase/astrobase) CLI Client
 
@@ -25,13 +25,13 @@ The CLI requires that a few commands are available in your path.
 Install via `pip`
 
 ```sh
-python -m pip install astrobase_cli
+$ python -m pip install astrobase_cli
 ```
 
 Check that the installation worked
 
 ```sh
-astrobase
+$ astrobase
 ```
 
 ## Features and Usage
@@ -204,6 +204,82 @@ gcloud iam service-accounts keys create ~/astrobase-gcp-creds.json --iam-account
 
 Make sure you can complete the `gcloud auth login` flow from the shell session from which you're using Astrobase to deploy clusters and resources. You can use `astrobase commands check` to make sure all the commands you need are accessible.
 
-### Apply and Destroy
+### Apply and Destroy Clusters and Kubernetes Resources
+
+#### Google Kubernetes Engine
+
+Deploying clusters and resources with Astrobase is incredibly easy.
+
+Let's deploy a cluster on GCP first, and then deploy the kubernetes dashboard and an nginx server to the cluster.
+
+First, let's take a look at the apply command `astrobase apply --help`
+
+```sh
+$ astrobase apply --help
+Usage: astrobase apply [OPTIONS]
+
+  Apply clusters and resources.
+
+Options:
+  -f TEXT  [required]
+  -v TEXT  Parameters to pass into your yaml. Format:
+           key=value<space>key2=value2<space>key3=value3<space>...
+
+  --help   Show this message and exit.
+```
+
+Yup – that's all you need, specify the cluster resource file with `-f` like kubernetes file references, and `-v` to pass parameters in the format of space separated key-value pairs.
+
+Let's give it a go. We can use the test asset files for a quick example.
+
+```sh
+$ astrobase apply -f tests/assets/test-gke-cluster.yaml -v PROJECT_ID=my-project-id
+{
+  "name": "operation-1617740520664-1720b4ce",
+  "zone": "us-central1",
+  "operationType": "CREATE_CLUSTER",
+  "status": "RUNNING",
+  "selfLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/operations/operation-1617740520664-1720b4ce",
+  "targetLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/clusters/astrobase-test-gke",
+  "startTime": "2021-04-06T20:22:00.664820492Z"
+}
+```
+
+It takes some time for the cluster to create – so give it five minutes or so. You can check the status of the cluster via the astrobase-api. This command will only work properly if you have one cluster in your project. Best to do this in a test project so you dont heck up things.
+
+```sh
+$ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1" | jq '.clusters[0].status'
+"PROVISIONING"
+...
+$ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1" | jq '.clusters[0].status'
+"RUNNING" 🙌
+```
+
+Awesome – now deploy your resources.
+
+```sh
+$ astrobase apply -f tests/assets/test-resources-gke.yaml -v "PROJECT_ID=my-project-id"
+applying resources to astrobase-test-gke@us-central1
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+deployment.apps/dashboard-metrics-scraper created
+applying resources to astrobase-test-gke@us-central1
+deployment.apps/nginx-deployment created
+```
+
+Easy right, let's follow through a similar exercise on AWS EKS next.
+
+#### Elastic Kubernetes Engine
 
 

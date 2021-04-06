@@ -15,7 +15,7 @@ class Apply:
 
     def apply_resources(self, resources: ResourceList) -> None:
         for resource in resources.resources:
-            client = self.clients.get(resource.provider)  # pragma: no cover
+            client = self.clients.get(resource.provider)()  # pragma: no cover
             client.apply_kubernetes_resources(  # pragma: no cover
                 kubernetes_resource_location=resource.resource_location,
                 cluster_name=resource.cluster_name,
