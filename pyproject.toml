@@ -22,7 +22,7 @@ requires = [
 Documentation = "https://www.github.com/astrobase/cli/docs"
 
 [tool.flit.scripts]
-astrobase = "cli.main:app"
+astrobase = "astrobase_cli.main:app"
 
 [tool.flit.metadata.requires-extra]
 test = [
