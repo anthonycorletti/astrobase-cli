@@ -278,7 +278,15 @@ applying resources to astrobase-test-gke@us-central1
 deployment.apps/nginx-deployment created
 ```
 
-Easy right, let's follow through a similar exercise on AWS EKS next.
+Run `kubectl proxy` to checkout the kubernetes dashboard at
+
+```
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+```
+
+You'll have to specify a kubeconfig reference, luckily, astrobase just uses `~/.kube/config` – so just use that!
+
+Easy right? Let's follow through a similar exercise on AWS EKS next.
 
 #### Elastic Kubernetes Engine
 
