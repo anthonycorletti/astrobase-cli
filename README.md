@@ -258,7 +258,7 @@ $ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1
 Awesome – now deploy your resources.
 
 ```sh
-$ astrobase apply -f tests/assets/test-resources-gke.yaml -v "PROJECT_ID=my-project-id"
+$ astrobase apply -f tests/assets/test-resources-gke.yaml
 applying resources to astrobase-test-gke@us-central1
 namespace/kubernetes-dashboard created
 serviceaccount/kubernetes-dashboard created
@@ -318,4 +318,28 @@ Once this is ready, we can check that nodegroups are getting set up. If somethin
 
 ```sh
 $ docker logs astrobase-$MY_PROFILE_NAME
+```
+
+And just like deploying resources to GKE, do the same for EKS.
+
+
+```sh
+$ astrobase apply -f tests/assets/test-resources-eks.yaml
+applying resources to astrobase-test-eks@us-east-1
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+deployment.apps/dashboard-metrics-scraper created
+applying resources to astrobase-test-eks@us-east-1
+deployment.apps/nginx-deployment created
 ```
