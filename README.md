@@ -312,6 +312,15 @@ So we can hangout for a little while that cluster provisions.
 ```sh
 $ curl -s -X GET "http://:8787/eks/astrobase-test-eks?region=us-east-1" | jq '.cluster.status'
 "CREATING"
+...
+$ curl -s -X GET "http://:8787/eks/astrobase-test-eks?region=us-east-1" | jq '.cluster.status'
+"ACTIVE"
+...
+$ curl -s -X GET "http://:8787/eks/astrobase-test-eks/nodegroups/test-nodegroup-cpu?region=us-east-1" | jq '.nodegroup.status'
+"CREATING"
+...
+$ curl -s -X GET "http://:8787/eks/astrobase-test-eks/nodegroups/test-nodegroup-cpu?region=us-east-1" | jq '.nodegroup.status'
+"ACTIVE"
 ```
 
 Once this is ready, we can check that nodegroups are getting set up. If something goes wrong we can always check the container's logs
@@ -342,4 +351,32 @@ service/dashboard-metrics-scraper created
 deployment.apps/dashboard-metrics-scraper created
 applying resources to astrobase-test-eks@us-east-1
 deployment.apps/nginx-deployment created
+```
+
+#### Destroying Clusters
+
+Easy come, easy go!
+
+```sh
+$ astrobase destroy -f tests/assets/test-gke-cluster.yaml -v PROJECT_ID=$PROJECT_ID
+{
+  "name": "operation-1617745193119-31995a6b",
+  "zone": "us-central1",
+  "operationType": "DELETE_CLUSTER",
+  "status": "RUNNING",
+  "selfLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/operations/operation-1617745193119-31995a6b",
+  "targetLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/clusters/astrobase-test-gke",
+  "startTime": "2021-04-06T21:39:53.119493584Z"
+}
+$ astrobase destroy -f tests/assets/test-eks-cluster.yaml -v "CLUSTER_ROLE_ARN=$CLUSTER_ROLE_ARN NODE_ROLE_ARN=$NODE_ROLE_ARN SUBNET_ID_0=$SUBNET_ID_0 SUBNET_ID_1=$SUBNET_ID_1 SECURITY_GROUP=$SECURITY_GROUP"
+{
+  "message": "EKS delete request submitted for astrobase-test-eks cluster and nodegroups: test-nodegroup-cpu"
+}
+```
+
+To destroy resources, simply use the same pattern, but with the `destroy` command.
+
+```sh
+$ astrobase destroy -f tests/assets/test-resources-gke.yaml
+$ astrobase destroy -f tests/assets/test-resources-eks.yaml
 ```
