@@ -14,7 +14,7 @@ The Astrobase CLI is the best way to issue commands to the Astrobase API server 
 
 The CLI requires that a few commands are available in your path.
 
-- python3.9+ (we suggest installing with [pyenv]((https://github.com/pyenv/pyenv)))
+- python3.9+ (we suggest installing with [pyenv](https://github.com/pyenv/pyenv))
 - [docker](https://docs.docker.com/get-docker/)
 - [aws-cli](https://github.com/aws/aws-cli#installation)
 - [gcloud](https://cloud.google.com/sdk/docs/install#installation_instructions)
