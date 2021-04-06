@@ -3,7 +3,7 @@ requires = ["flit_core >=2,<3"]
 build-backend = "flit_core.buildapi"
 
 [tool.flit.metadata]
-module = "cli"
+module = "astrobase-cli"
 author = "Astrobase Inc."
 author-email = "anthony@astrobase.co"
 home-page = "https://www.github.com/astrobase/cli"
