@@ -290,4 +290,32 @@ Easy right? Let's follow through a similar exercise on AWS EKS next.
 
 #### Elastic Kubernetes Engine
 
+Remember setting a bunch of values before for subnets, ARNs, and such? Now here's where Astrobase's simple templating really shines.
 
+```sh
+$ export CLUSTER_ROLE_ARN=arn:aws:iam::AWS_ACCOUNT_ID:role/AstrobaseEKSRole
+$ export NODE_ROLE_ARN=arn:aws:iam::AWS_ACCOUNT_ID:role/AstrobaseEKSNodegroupRole
+$ export SUBNET_ID_0=$(aws ec2 describe-subnets --query 'Subnets[].SubnetId[]' | jq -r '.[0]')
+$ export SUBNET_ID_1=$(aws ec2 describe-subnets --query 'Subnets[].SubnetId[]' | jq -r '.[1]')
+$ export SECURITY_GROUP=$(aws ec2 describe-security-groups --query 'SecurityGroups[].GroupId' | jq -r '.[0]')
+
+$ astrobase apply -f tests/assets/test-eks-cluster.yaml -v "CLUSTER_ROLE_ARN=$CLUSTER_ROLE_ARN NODE_ROLE_ARN=$NODE_ROLE_ARN SUBNET_ID_0=$SUBNET_ID_0 SUBNET_ID_1=$SUBNET_ID_1 SECURITY_GROUP=$SECURITY_GROUP"
+{
+  "message": "EKS create request submitted for astrobase-test-eks"
+}
+```
+
+EKS behaves differently and some async api calls need to be handled to provision nodegroups, that's the api server's job.
+
+So we can hangout for a little while that cluster provisions.
+
+```sh
+$ curl -s -X GET "http://:8787/eks/astrobase-test-eks?region=us-east-1" | jq '.cluster.status'
+"CREATING"
+```
+
+Once this is ready, we can check that nodegroups are getting set up. If something goes wrong we can always check the container's logs
+
+```sh
+$ docker logs astrobase-$MY_PROFILE_NAME
+```
