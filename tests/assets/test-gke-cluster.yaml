@@ -1,16 +1,21 @@
 apiVersion: 0.1.0
 clusters:
-    - name: test-gke
+    - name: astrobase-test-gke
       provider: gke
       location: us-central1
       project_id: $PROJECT_ID
       resourceLabels:
-          my_key: my_value
+          resource_label_key: resource_label_value
+          resource_env: dev
       nodePools:
           - name: cpu-test-nodepool
             initialNodeCount: 1
+            autoscaling:
+                enabled: true
+                minNodeCount: 1
+                maxNodeCount: 3
             config:
                 metadata:
-                    machine_key: machine_value
+                    gce_key: gce_value
                 labels:
-                    kube_key: kube_value
+                    kube_node_key: kube_node_value

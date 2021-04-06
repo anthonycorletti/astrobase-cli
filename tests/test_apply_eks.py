@@ -54,9 +54,9 @@ def test_apply_eks_cluster(requests_mock):
 def test_destroy_eks_cluster(requests_mock):
     test_cluster_location = "us-east-1"
     requests_mock.delete(
-        f"{mock_server}/eks/test-eks?region={test_cluster_location}",
+        f"{mock_server}/eks/astrobase-test-eks?region={test_cluster_location}",
         json={
-            "message": "EKS delete request submitted for test-eks cluster"
+            "message": "EKS delete request submitted for astrobase-test-eks cluster"
             " and nodegroups: test-nodegroup-cpu"
         },
     )
@@ -76,7 +76,7 @@ def test_destroy_eks_cluster(requests_mock):
     )
     assert result.exit_code == 0
     assert (
-        "EKS delete request submitted for test-eks cluster"
+        "EKS delete request submitted for astrobase-test-eks cluster"
         " and nodegroups: test-nodegroup-cpu"
         == json.loads(result.stdout).get("message")
     )

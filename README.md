@@ -148,9 +148,62 @@ $ curl -s "http://:8787/healthcheck" | jq
 
 In order to deploy clusters on AWS (EKS), you'll need to do some preliminary setup.
 
+The Astrobase API will handle infrastructure provisioning, but you will need to pull together a few resource identifiers.
+
+Here's an [example yaml cluster definition for an EKS Cluster](tests/assets/test-eks-cluster.yaml).
+
+There are a few values in there that we have to specify on the command line to pass into this cluster definition, namely ...
+
+```
+$SUBNET_ID_0
+$SUBNET_ID_1
+$SECURITY_GROUP
+$CLUSTER_ROLE_ARN
+$NODE_ROLE_ARN
+```
+
+To deploy the cluster into your default VPC use the following. For your own VPCs you'll need to specify those yourself. Note that these variables can be named whatever you like and aren't tied to a schema.
+
+```sh
+export SUBNET_ID_0=$(aws ec2 describe-subnets --query 'Subnets[].SubnetId[]' | jq -r '.[0]')
+export SUBNET_ID_1=$(aws ec2 describe-subnets --query 'Subnets[].SubnetId[]' | jq -r '.[1]')
+export SECURITY_GROUP=$(aws ec2 describe-security-groups --query 'SecurityGroups[].GroupId' | jq -r '.[0]')
+```
+
+Now for the ARNs. You'll need an ARN for the cluster and another for each nodegroup you want to create.
+
+#### CLUSTER_ROLE_ARN
+
+1. Create an IAM role, call it whatever you like. For documentation's sake, we'll call it `AstrobaseEKSRole`.
+1. Attach the AWS managed policy, titled `AmazonEKSClusterPolicy`.
+1. Set it in your environment: `export CLUSTER_ROLE_ARN=arn:aws:iam::account_id:role/AstrobaseEKSRole`
+
+#### NODE_ROLE_ARN
+
+1. Create an IAM role, call it whatever you like. For documentation's sake, we'll call it `AstrobaseEKSNodegroupRole`.
+1. Attach the following AWS managed policies, titled: `AmazonEKSWorkerNodePolicy`, `AmazonEC2ContainerRegistryReadOnly`, `AmazonEKS_CNI_Policy`
+1. Set it in your environment: `export NODE_ROLE_ARN=arn:aws:iam::account_id:role/AstrobaseEKSNodegroupRole`
+
+#### AWS Configure
+
+Make sure you can complete the `aws configure` login flow.
+
 ### Preliminary Setup for GCP Deployments
 
 In order to deploy clusters on GCP (GKE), you'll need to do some preliminary setup.
 
+#### Project ID and Google Application Credentials
+
+You'll need to have a Google Cloud project created already with the GKE (Google Kubernetes Engine) and GCE (Google Compute Engine) APIs enabled.
+
+```sh
+export PROJECT_ID=$(gcloud config get-value project)
+SERVICE_ACCOUNT_EMAIL=$(gcloud iam service-accounts list --filter="display_name:Default compute service account" --format=json | jq -r ".[].email")
+gcloud iam service-accounts keys create ~/astrobase-gcp-creds.json --iam-account $SERVICE_ACCOUNT_EMAIL
+```
+
+Make sure you can complete the `gcloud auth login` flow from the shell session from which you're using Astrobase to deploy clusters and resources. You can use `astrobase commands check` to make sure all the commands you need are accessible.
+
 ### Apply and Destroy
+
 

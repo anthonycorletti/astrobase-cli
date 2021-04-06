@@ -94,7 +94,7 @@ def test_destroy_gke_cluster(requests_mock):
     test_cluster_project_id = "test-project-id"
     requests_mock.delete(
         (
-            f"{mock_server}/gke/test-gke?location="
+            f"{mock_server}/gke/astrobase-test-gke?location="
             f"{test_cluster_location}&project_id={test_cluster_project_id}"
         ),
         json={
