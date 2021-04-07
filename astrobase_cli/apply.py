@@ -1,7 +1,10 @@
+import tempfile
+
 from astrobase_cli.clients.eks import EKSClient
 from astrobase_cli.clients.gke import GKEClient
 from astrobase_cli.schemas.cluster import Clusters
 from astrobase_cli.schemas.resource import ResourceList
+from astrobase_cli.utils.params import YamlParams
 
 
 class Apply:
@@ -13,11 +16,17 @@ class Apply:
             client = self.clients.get(cluster.get("provider"))()
             client.create(cluster)
 
-    def apply_resources(self, resources: ResourceList) -> None:
+    def apply_resources(self, resources: ResourceList, params: YamlParams) -> None:
+        temp_dir = tempfile.TemporaryDirectory()
         for resource in resources.resources:
+            params.template_resource_files(  # pragma: no cover
+                src_dir=resource.resource_location,
+                dst_dir=temp_dir.name,
+            )
             client = self.clients.get(resource.provider)()  # pragma: no cover
             client.apply_kubernetes_resources(  # pragma: no cover
-                kubernetes_resource_location=resource.resource_location,
+                kubernetes_resource_location=temp_dir.name,
                 cluster_name=resource.cluster_name,
                 cluster_location=resource.cluster_location,
             )
+        temp_dir.cleanup()

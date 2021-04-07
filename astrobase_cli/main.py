@@ -57,11 +57,11 @@ def _apply(
 
     with open(astrobase_yaml_path, "r") as f:
         data = yaml.safe_load(f)
-        data = params.update_data_with_values(str(data))
+        data = params.update_data_with_values(data)
         clusters = Clusters(**data)
         resources = ResourceList(**data)
         astrobase_apply.apply_clusters(clusters)
-        astrobase_apply.apply_resources(resources)
+        astrobase_apply.apply_resources(resources, params)
 
 
 @app.command("destroy")
@@ -82,8 +82,8 @@ def _destroy(
 
     with open(astrobase_yaml_path, "r") as f:
         data = yaml.safe_load(f)
-        data = params.update_data_with_values(str(data))
+        data = params.update_data_with_values(data)
         clusters = Clusters(**data)
         resources = ResourceList(**data)
         astrobase_destroy.destroy_clusters(clusters)
-        astrobase_destroy.destroy_resources(resources)
+        astrobase_destroy.destroy_resources(resources, params)
