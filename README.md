@@ -2,8 +2,6 @@
 
 The [Astrobase](https://github.com/astrobase/astrobase) CLI Client
 
-[![license](https://img.shields.io/badge/astrobase-license-blue.svg)](https://github.com/astrobase/cli/blob/master/LICENSE)
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/astrobase/cli?sort=semver)](https://github.com/astrobase/cli/tree/master)
 [![publish](https://github.com/astrobase/cli/actions/workflows/publish.yaml/badge.svg)](https://github.com/astrobase/cli/actions/workflows/publish.yaml)
 [![test](https://github.com/astrobase/cli/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/astrobase/cli/actions/workflows/test.yaml)
 [![codecov](https://codecov.io/gh/astrobase/cli/branch/master/graph/badge.svg?token=97YCqzHZmk)](https://codecov.io/gh/astrobase/cli)
