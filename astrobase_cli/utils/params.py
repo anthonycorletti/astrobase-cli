@@ -75,7 +75,6 @@ class YamlParams(BaseModel):
 
     def template_resource_files(self, src_dir: str, dst_dir: str) -> None:
         if os.path.isdir(src_dir):
-            print("dir")
             for p in Path(src_dir).glob("**/*"):
                 if p.suffix in tuple(YamlFileExtensions):
                     f = p.resolve()
