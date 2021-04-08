@@ -17,8 +17,8 @@ class Apply:
             client.create(cluster)
 
     def apply_resources(self, resources: ResourceList, params: YamlParams) -> None:
-        temp_dir = tempfile.TemporaryDirectory()
         for resource in resources.resources:
+            temp_dir = tempfile.TemporaryDirectory()
             params.template_resource_files(  # pragma: no cover
                 src_dir=resource.resource_location,
                 dst_dir=temp_dir.name,
@@ -29,4 +29,4 @@ class Apply:
                 cluster_name=resource.cluster_name,
                 cluster_location=resource.cluster_location,
             )
-        temp_dir.cleanup()
+            temp_dir.cleanup()
