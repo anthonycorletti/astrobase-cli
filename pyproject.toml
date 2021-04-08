@@ -19,7 +19,7 @@ requires = [
 ]
 
 [tool.flit.metadata.urls]
-Documentation = "https://www.github.com/astrobase/cli/docs"
+Documentation = "https://www.github.com/astrobase/astrobase/docs"
 
 [tool.flit.scripts]
 astrobase = "astrobase_cli.main:app"
