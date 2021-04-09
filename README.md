@@ -234,11 +234,11 @@ Let's give it a go. We can use the test asset files for a quick example.
 $ astrobase apply -f tests/assets/test-gke-cluster.yaml -v PROJECT_ID=my-project-id
 {
   "name": "operation-1617740520664-1720b4ce",
-  "zone": "us-central1",
+  "zone": "us-central1-c",
   "operationType": "CREATE_CLUSTER",
   "status": "RUNNING",
-  "selfLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/operations/operation-1617740520664-1720b4ce",
-  "targetLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/clusters/astrobase-test-gke",
+  "selfLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/zones/us-central1-c/operations/operation-1617740520664-1720b4ce",
+  "targetLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/zones/us-central1-c/clusters/astrobase-test-gke",
   "startTime": "2021-04-06T20:22:00.664820492Z"
 }
 ```
@@ -246,10 +246,10 @@ $ astrobase apply -f tests/assets/test-gke-cluster.yaml -v PROJECT_ID=my-project
 It takes some time for the cluster to create – so give it five minutes or so. You can check the status of the cluster via the astrobase-api. This command will only work properly if you have one cluster in your project. Best to do this in a test project so you dont heck up things.
 
 ```sh
-$ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1" | jq '.clusters[0].status'
+$ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1-c" | jq '.clusters[0].status'
 "PROVISIONING"
 ...
-$ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1" | jq '.clusters[0].status'
+$ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1-c" | jq '.clusters[0].status'
 "RUNNING" 🙌
 ```
 
@@ -257,7 +257,7 @@ Awesome – now deploy your resources.
 
 ```sh
 $ astrobase apply -f tests/assets/test-resources-gke.yaml
-applying resources to astrobase-test-gke@us-central1
+applying resources to astrobase-test-gke@us-central1-c
 namespace/kubernetes-dashboard created
 serviceaccount/kubernetes-dashboard created
 service/kubernetes-dashboard created
@@ -272,7 +272,7 @@ clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
 deployment.apps/kubernetes-dashboard created
 service/dashboard-metrics-scraper created
 deployment.apps/dashboard-metrics-scraper created
-applying resources to astrobase-test-gke@us-central1
+applying resources to astrobase-test-gke@us-central1-c
 deployment.apps/nginx-deployment created
 ```
 
@@ -359,11 +359,11 @@ Easy come, easy go!
 $ astrobase destroy -f tests/assets/test-gke-cluster.yaml -v PROJECT_ID=$PROJECT_ID
 {
   "name": "operation-1617745193119-31995a6b",
-  "zone": "us-central1",
+  "zone": "us-central1-c",
   "operationType": "DELETE_CLUSTER",
   "status": "RUNNING",
-  "selfLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/operations/operation-1617745193119-31995a6b",
-  "targetLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/locations/us-central1/clusters/astrobase-test-gke",
+  "selfLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/zones/us-central1-c/operations/operation-1617745193119-31995a6b",
+  "targetLink": "https://container.googleapis.com/v1beta1/projects/PROJECT_NUMBER/zones/us-central1-c/clusters/astrobase-test-gke",
   "startTime": "2021-04-06T21:39:53.119493584Z"
 }
 $ astrobase destroy -f tests/assets/test-eks-cluster.yaml -v "CLUSTER_ROLE_ARN=$CLUSTER_ROLE_ARN NODE_ROLE_ARN=$NODE_ROLE_ARN SUBNET_ID_0=$SUBNET_ID_0 SUBNET_ID_1=$SUBNET_ID_1 SECURITY_GROUP=$SECURITY_GROUP"

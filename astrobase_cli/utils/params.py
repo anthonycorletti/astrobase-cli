@@ -98,6 +98,10 @@ class YamlParams(BaseModel):
     ) -> None:
         with open(f"{dst_dir}/{src_file_name}", "w") as dst_file:
             with open(f"{src_dir}/{src_file_name}", "r") as src_file:
-                templated = self.update_data_with_values(yaml.safe_load(src_file))
-                final_yaml = yaml.dump(templated, default_flow_style=False)
-                dst_file.write(final_yaml)
+                for data in yaml.safe_load_all(src_file):
+                    templated = self.update_data_with_values(data)
+                    final_yaml = yaml.dump(templated, default_flow_style=False)
+                    dst_file.write("---\n")
+                    dst_file.write(final_yaml)
+                    dst_file.write("\n")
+                dst_file.write("\n")

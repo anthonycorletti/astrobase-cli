@@ -24,7 +24,7 @@ class Kubernetes:
             "clusters",
             "get-credentials",
             cluster_name,
-            "--region",
+            "--zone",
             cluster_location,
         )
 

@@ -15,11 +15,11 @@ resources:
   - name: kubernetes-dashboard
     provider: gke
     cluster_name: astrobase-test-gke
-    cluster_location: us-central1
+    cluster_location: us-central1-c
     resource_location: https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
 
   - name: simple-nginx
     provider: gke
     cluster_name: astrobase-test-gke
-    cluster_location: us-central1
+    cluster_location: us-central1-c
     resource_location: tests/assets/kubernetes
