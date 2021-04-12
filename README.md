@@ -60,7 +60,11 @@ You can view commands to interact with Astrobase profiles by running `astrobase 
 
 Let's walk through and example of setting up an Astrobase profile.
 
-First, let's create a profile:
+First, let's create a profile. You will need to have credentials for each cloud provider you wish to use. You only need to configure the cloud providers you wish to use.
+
+In order for Astrobase to work properly, we suggest that you use your default AWS credentials, and for GCP, create a new json key for your default compute service account.
+
+Make sure you reference these files correctly, these are placeholders.
 
 ```sh
 $ astrobase profile create my-profile \
