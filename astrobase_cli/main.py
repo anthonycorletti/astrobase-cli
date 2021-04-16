@@ -12,7 +12,6 @@ name = f"🚀 Astrobase CLI {version} 🧑‍🚀"
 app = typer.Typer(name=name)
 app.add_typer(profile.app, name="profile")
 app.add_typer(check.app, name="check")
-initializer = init.Initializer()
 
 
 @app.callback()
@@ -36,6 +35,7 @@ def _init(astrobase_container_version: str = "latest"):
     """
     Initialize Astrobase.
     """
+    initializer = init.Initializer()  # pragma: no cover
     initializer.docker_run(astrobase_container_version)  # pragma: no cover
 
 

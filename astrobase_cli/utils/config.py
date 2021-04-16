@@ -14,6 +14,10 @@ class AstrobaseProfile(BaseModel):
     gcp_creds: Optional[str]
     aws_creds: Optional[str]
     aws_profile_name: Optional[str]
+    azure_client_id: Optional[str]
+    azure_client_secret: Optional[str]
+    azure_subscription_id: Optional[str]
+    azure_tenant_id: Optional[str]
 
 
 class AstrobaseConfig:
@@ -70,6 +74,10 @@ class AstrobaseDockerConfig:
     AWS_SHARED_CREDS_FILE_ENV_KEY = "AWS_SHARED_CREDENTIALS_FILE"
     GOOGLE_CREDS_CONTAINER = "/google-credentials.json"
     GOOGLE_APPLICATION_CREDS_ENV_KEY = "GOOGLE_APPLICATION_CREDENTIALS"
+    AZURE_CLIENT_ID_ENV_KEY = "AZURE_CLIENT_ID"
+    AZURE_CLIENT_SECRET_ENV_KEY = "AZURE_CLIENT_SECRET"
+    AZURE_SUBSCRIPTION_ID_ENV_KEY = "AZURE_SUBSCRIPTION_ID"
+    AZURE_TENANT_ID_ENV_KEY = "AZURE_TENANT_ID"
 
     def __init__(
         self,
@@ -97,6 +105,7 @@ class AstrobaseDockerConfig:
 
         self._configure_aws()
         self._configure_gcp()
+        self._configure_azure()
 
     def _configure_gcp(self) -> None:
         host_gcp_creds = self.astrobase_config.current_profile().gcp_creds
@@ -122,3 +131,21 @@ class AstrobaseDockerConfig:
                 self.AWS_SHARED_CREDS_FILE_ENV_KEY
             ] = self.AWS_CREDS_CONTAINER
             self.environment[self.AWS_PROFILE_ENV_KEY] = aws_profile_name
+
+    def _configure_azure(self) -> None:
+        azure_client_id = self.astrobase_config.current_profile().azure_client_id
+        if azure_client_id:
+            self.environment[self.AZURE_CLIENT_ID_ENV_KEY] = azure_client_id
+        azure_client_secret = (
+            self.astrobase_config.current_profile().azure_client_secret
+        )
+        if azure_client_secret:
+            self.environment[self.AZURE_CLIENT_SECRET_ENV_KEY] = azure_client_secret
+        azure_subscription_id = (
+            self.astrobase_config.current_profile().azure_subscription_id
+        )
+        if azure_subscription_id:
+            self.environment[self.AZURE_SUBSCRIPTION_ID_ENV_KEY] = azure_subscription_id
+        azure_tenant_id = self.astrobase_config.current_profile().azure_tenant_id
+        if azure_tenant_id:
+            self.environment[self.AZURE_TENANT_ID_ENV_KEY] = azure_tenant_id

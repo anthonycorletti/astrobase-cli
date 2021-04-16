@@ -19,6 +19,10 @@ def create(
     gcp_creds: str = typer.Option(None),
     aws_creds: str = typer.Option(None),
     aws_profile_name: str = typer.Option(None),
+    azure_client_id: str = typer.Option(None),
+    azure_client_secret: str = typer.Option(None),
+    azure_subscription_id: str = typer.Option(None),
+    azure_tenant_id: str = typer.Option(None),
 ):
     """
     Create a profile.
@@ -30,6 +34,10 @@ def create(
         gcp_creds=gcp_creds,
         aws_creds=aws_creds,
         aws_profile_name=aws_profile_name,
+        azure_client_id=azure_client_id,
+        azure_client_secret=azure_client_secret,
+        azure_subscription_id=azure_subscription_id,
+        azure_tenant_id=azure_tenant_id,
     )
     astrobase_config.config[name] = new_profile.dict()
     astrobase_config.write_config(astrobase_config.config)

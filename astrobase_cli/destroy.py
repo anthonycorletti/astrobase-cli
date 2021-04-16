@@ -1,5 +1,6 @@
 import tempfile
 
+from astrobase_cli.clients.aks import AKSClient
 from astrobase_cli.clients.eks import EKSClient
 from astrobase_cli.clients.gke import GKEClient
 from astrobase_cli.schemas.cluster import Clusters
@@ -9,7 +10,7 @@ from astrobase_cli.utils.params import YamlParams
 
 class Destroy:
     def __init__(self):
-        self.clients = {"eks": EKSClient, "gke": GKEClient}
+        self.clients = {"eks": EKSClient, "gke": GKEClient, "aks": AKSClient}
 
     def destroy_clusters(self, clusters: Clusters) -> None:
         for cluster in clusters.clusters:
@@ -25,8 +26,6 @@ class Destroy:
             )
             client = self.clients.get(resource.provider)()  # pragma: no cover
             client.destroy_kubernetes_resources(  # pragma: no cover
-                kubernetes_resource_location=temp_dir.name,
-                cluster_name=resource.cluster_name,
-                cluster_location=resource.cluster_location,
+                kubernetes_resource_location=temp_dir.name, **resource.dict()
             )
             temp_dir.cleanup()
