@@ -1,6 +1,6 @@
 import sys
 from contextlib import contextmanager
-from typing import Iterator
+from typing import Iterator, Optional
 
 import typer
 from kubernetes import client, config
@@ -39,10 +39,9 @@ class Kubernetes:
         )
 
     def get_kubeconfig_via_az(
-        self, cluster_name: str, resource_group_name: str
+        self, cluster_name: str, resource_group_name: Optional[str]
     ) -> None:
         az(
-            "az",
             "aks",
             "get-credentials",
             "--resource-group",
@@ -55,7 +54,7 @@ class Kubernetes:
         self,
         cluster_name: str,
         cluster_location: str,
-        resource_group_name: str,
+        resource_group_name: Optional[str],
     ) -> None:
         if self.via == "gcloud":
             self.get_kubeconfig_via_gcloud(cluster_name, cluster_location)
@@ -72,7 +71,7 @@ class Kubernetes:
         kubernetes_resource_location: str,
         cluster_name: str,
         cluster_location: str,
-        resource_group_name: str,
+        resource_group_name: Optional[str] = None,
     ) -> None:
         self.get_kubeconfig(
             cluster_name=cluster_name,
@@ -91,7 +90,7 @@ class Kubernetes:
         kubernetes_resource_location: str,
         cluster_name: str,
         cluster_location: str,
-        resource_group_name: str,
+        resource_group_name: Optional[str] = None,
     ) -> None:
         self.get_kubeconfig(
             cluster_name=cluster_name,

@@ -30,6 +30,7 @@ class AKSClient:
         cluster_name: str,
         cluster_location: str,
         resource_group_name: str,
+        **kwargs,
     ) -> None:
         self.kubernetes.apply(  # pragma: no cover
             kubernetes_resource_location,
@@ -44,6 +45,7 @@ class AKSClient:
         cluster_name: str,
         cluster_location: str,
         resource_group_name: str,
+        **kwargs,
     ) -> None:
         self.kubernetes.destroy(  # pragma: no cover
             kubernetes_resource_location,

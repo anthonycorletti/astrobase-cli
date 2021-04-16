@@ -31,6 +31,7 @@ class GKEClient:
         kubernetes_resource_location: str,
         cluster_name: str,
         cluster_location: str,
+        **kwargs,
     ) -> None:
         self.kubernetes.apply(  # pragma: no cover
             kubernetes_resource_location, cluster_name, cluster_location
@@ -41,6 +42,7 @@ class GKEClient:
         kubernetes_resource_location: str,
         cluster_name: str,
         cluster_location: str,
+        **kwargs,
     ) -> None:
         self.kubernetes.destroy(  # pragma: no cover
             kubernetes_resource_location, cluster_name, cluster_location
