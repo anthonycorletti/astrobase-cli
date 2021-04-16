@@ -30,7 +30,10 @@ def test_apply_aks_cluster(requests_mock):
     )
     requests_mock.post(
         f"{mock_server}/aks",
-        json={},  # TODO
+        json={
+            "result": "AKS create request submitted for astrobase-test-aks",
+            "status": 200,
+        },
     )
     result = runner.invoke(
         app,
@@ -53,7 +56,10 @@ def test_destroy_aks_cluster(requests_mock):
             f"{mock_server}/aks/astrobase-test-aks?resource_group_name="
             f"{resource_group_name}"
         ),
-        json={},  # TODO
+        json={
+            "result": "AKS delete request submitted for astrobase-test-aks",
+            "status": 200,
+        },
     )
     result = runner.invoke(
         app,
