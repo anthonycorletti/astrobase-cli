@@ -44,6 +44,7 @@ class Kubernetes:
         az(
             "aks",
             "get-credentials",
+            "--overwrite-existing",
             "--resource-group",
             resource_group_name,
             "--name",
