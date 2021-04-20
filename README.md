@@ -6,7 +6,7 @@ The [Astrobase](https://github.com/astrobase/astrobase) CLI Client
 [![test](https://github.com/astrobase/cli/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/astrobase/cli/actions/workflows/test.yaml)
 [![codecov](https://codecov.io/gh/astrobase/cli/branch/master/graph/badge.svg?token=97YCqzHZmk)](https://codecov.io/gh/astrobase/cli)
 
-The Astrobase CLI is the best way to issue commands to the Astrobase API server to initialize the server, create clusters, resources, and manage Astrobase profiles.
+The Astrobase CLI is the best way to send requests to the Astrobase API server, create clusters and resources, and manage Astrobase profiles.
 
 ## Requirements
 
