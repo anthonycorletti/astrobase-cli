@@ -9,6 +9,7 @@ class Resource(BaseModel):
     cluster_name: str
     cluster_location: str
     resource_location: str
+    project_id: Optional[str]
     resource_group_name: Optional[str]
 
 

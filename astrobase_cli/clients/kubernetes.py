@@ -2,6 +2,7 @@ import sys
 from contextlib import contextmanager
 from typing import Iterator, Optional
 
+import kubernetes
 import typer
 from kubernetes import client, config
 from sh import aws, az, gcloud, kubectl
@@ -84,7 +85,18 @@ class Kubernetes:
             if not kube_api_client:
                 typer.echo("no kubernetes api client provisioned")
                 raise typer.Exit(1)
-            kubectl("apply", "-f", f"{kubernetes_resource_location}", _out=sys.stdout)
+            kubectl(
+                "apply",
+                "-f",
+                f"{kubernetes_resource_location}",
+                "--server",
+                f"{kubernetes_server}",
+                "--certificate-authority",
+                f"{kubernetes_ca_path}",
+                "--token",
+                f"{kubernetes_bearer_token}",
+                _out=sys.stdout,
+            )
 
     def destroy(
         self,
@@ -103,4 +115,15 @@ class Kubernetes:
             if not kube_api_client:
                 typer.echo("no kubernetes api client provisioned")
                 raise typer.Exit(1)
-            kubectl("delete", "-f", f"{kubernetes_resource_location}", _out=sys.stdout)
+            kubectl(
+                "delete",
+                "-f",
+                f"{kubernetes_resource_location}",
+                "--server",
+                f"{kubernetes_server}",
+                "--certificate-authority",
+                f"{kubernetes_ca_path}",
+                "--token",
+                f"{kubernetes_bearer_token}",
+                _out=sys.stdout,
+            )

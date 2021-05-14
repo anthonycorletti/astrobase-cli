@@ -24,6 +24,9 @@ class AKSClient:
         res = requests.delete(cluster_url)
         typer.echo(json_out(res.json()))
 
+    def get_kubernetes_config(self):
+        pass
+
     def apply_kubernetes_resources(
         self,
         kubernetes_resource_location: str,
