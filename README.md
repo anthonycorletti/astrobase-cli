@@ -18,9 +18,15 @@ The CLI requires a few things to get started.
 
 Credentials available for the following cloud accounts:
 
-- Google Cloud: created [a service account credential](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
-- AWS: Installed and configured the [`aws-cli`](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-- Azure: [Values for your subscription ID, client ID, tenant ID, and client secret](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal).
+- Google Cloud: created [a service account credential](https://cloud.google.com/iam/docs/creating-managing-service-account-keys). This could be the same credential that you've set in `astrobase profile current`.
+- AWS: Installed and configured the [`aws-cli`](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Simply running `aws configure` and setting the correct credentials will do.
+- Azure: [Values for your subscription ID, client ID, tenant ID, and client secret](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal). Simply export those values your environment like so;
+    ```
+    export AZURE_TENANT_ID={your tenant id}
+    export AZURE_CLIENT_ID={your client id}
+    export AZURE_CLIENT_SECRET={your client secret}
+    export AZURE_SUBSCRIPTION_ID={your subscription id}
+    ```
 
 
 ## Installation
