@@ -9,7 +9,6 @@ import requests
 import typer
 from sh import kubectl
 
-from astrobase_cli.clients.kubernetes import Kubernetes
 from astrobase_cli.schemas.kubernetes import GKEKubernetesCredentials
 from astrobase_cli.utils.config import AstrobaseConfig
 from astrobase_cli.utils.formatter import json_out
@@ -20,7 +19,6 @@ class GKEClient:
     def __init__(self):
         astrobase_config = AstrobaseConfig()
         self.url = f"{astrobase_config.current_profile().server}/gke"
-        self.kubernetes = Kubernetes(via="gcloud")
 
     def create(self, cluster: dict) -> None:
         res = requests.post(self.url, json=cluster)

@@ -14,7 +14,6 @@ from awscli.customizations.eks.get_token import (
 from botocore import session
 from sh import kubectl
 
-from astrobase_cli.clients.kubernetes import Kubernetes
 from astrobase_cli.schemas.kubernetes import EKSKubernetesCredentials
 from astrobase_cli.utils.config import AstrobaseConfig
 from astrobase_cli.utils.formatter import json_out
@@ -24,7 +23,6 @@ class EKSClient:
     def __init__(self):
         astrobase_config = AstrobaseConfig()
         self.url = f"{astrobase_config.current_profile().server}/eks"
-        self.kubernetes = Kubernetes(via="aws")
 
     def create(self, cluster: dict) -> None:
         res = requests.post(self.url, json=cluster)
