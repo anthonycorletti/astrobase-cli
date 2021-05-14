@@ -11,3 +11,9 @@ class EKSKubernetesCredentials(BaseModel):
     endpoint: str
     ca_path: str
     token: str
+
+
+class AKSKubernetesCredentials(BaseModel):
+    endpoint: str
+    ca_path: str
+    token: str
