@@ -10,14 +10,18 @@ The Astrobase CLI is the best way to send requests to the Astrobase API server, 
 
 ## Requirements
 
-The CLI requires that a few commands are available in your path.
+The CLI requires a few things to get started.
 
 - python3.9+ (we suggest installing with [pyenv](https://github.com/pyenv/pyenv))
-- [docker](https://docs.docker.com/get-docker/)
-- [aws-cli](https://github.com/aws/aws-cli#installation)
-- [gcloud](https://cloud.google.com/sdk/docs/install#installation_instructions)
-- [az](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/) (if you've already installed gcloud, kubectl will already be available)
+- [docker](https://docs.docker.com/get-docker/) should be available on your machine
+- [kubectl](https://kubernetes.io/docs/tasks/tools/): a recent version (1.18+ should do!)
+
+Credentials available for the following cloud accounts:
+
+- Google Cloud: created [a service account credential](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
+- AWS: Installed and configured the [`aws-cli`](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+- Azure: [Values for your subscription ID, client ID, tenant ID, and client secret](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal).
+
 
 ## Installation
 
@@ -39,7 +43,7 @@ $ astrobase
 
 Checks help you make sure that everything is ready to roll in your environment.
 
-Run `astrobase check commands` to make sure that the necessary commands are in your `$PATH` to use Astrobase.
+Run `astrobase check commands` to make sure that the necessary commands are in your `$PATH` to use Astrobase. You want to make sure that a docker daemon is available and `kubectl` is in your path. These dependencies may be removed in the future with a rewrite in [go](https://golang.com).
 
 ### Profiles
 
@@ -410,17 +414,6 @@ export AZURE_SUBSCRIPTION_ID=<AZURE_SUBSCRIPTION_ID>
 export AZURE_CLIENT_ID=<AZURE_CLIENT_ID>
 export AZURE_CLIENT_SECRET=<AZURE_CLIENT_SECRET>
 export AZURE_TENANT_ID=<AZURE_TENANT_ID>
-```
-
-#### Check Commands
-
-```sh
-$ astrobase check commands
-az found at: /usr/local/bin/az
-aws found at: /usr/local/bin/aws
-docker found at: /usr/local/bin/docker
-gcloud found at: /Users/anthcor/google-cloud-sdk/bin/gcloud
-kubectl found at: /usr/local/bin/kubectl
 ```
 
 #### Initialize Astrobase
