@@ -19,7 +19,7 @@ The CLI requires a few things to get started.
 Credentials available for the following cloud accounts:
 
 - Google Cloud: create [a service account credential](https://cloud.google.com/iam/docs/creating-managing-service-account-keys). This could be the same credential that you've set in `astrobase profile current`.
-- AWS: Install and configur the [`aws-cli`](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Simply running `aws configure` and setting the correct credentials will do.
+- AWS: Install and configure the [`aws-cli`](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Simply running `aws configure` and setting the correct credentials will do.
 - Azure: [Values for your subscription ID, client ID, tenant ID, and client secret](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal). Simply export those values in your environment like so;
     ```
     export AZURE_TENANT_ID={your tenant id}
@@ -258,7 +258,7 @@ $ astrobase apply -f tests/assets/test-gke-cluster.yaml -v PROJECT_ID=my-project
 }
 ```
 
-It takes some time for the cluster to create – so give it five minutes or so. You can check the status of the cluster via the astrobase-api. This command will only work properly if you have one cluster in your project. Best to do this in a test project so you dont heck up things.
+It takes some time for the cluster to create – so give it five minutes or so. You can check the status of the cluster via the astrobase-api. This command will only work properly if you have one cluster in your project. Best to do this in a test project so you don't heck up things.
 
 ```sh
 $ curl -s -X GET "http://:8787/gke?project_id=my-project-id&location=us-central1-c" | jq '.clusters[0].status'
@@ -410,7 +410,7 @@ Follow these links (assuming you have an admin owner configured as yourself alre
 1. Register an application with Azure AD and create a service principal, https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#app-registration-app-objects-and-service-principals
 1. Assign a role to the application https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#assign-a-role-to-the-application
 1. https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#get-tenant-and-app-id-values-for-signing-in
-1. Authentication: Applciation Secret https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#option-2-create-a-new-application-secret
+1. Authentication: Application Secret https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#option-2-create-a-new-application-secret
 1. https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#configure-access-policies-on-resources
 
 #### Export Azure Credentials in the shell session where you initialize astrobase
