@@ -1,4 +1,5 @@
 import tempfile
+from typing import Callable, Dict
 
 from astrobase_cli.clients.aks import AKSClient
 from astrobase_cli.clients.eks import EKSClient
@@ -9,13 +10,21 @@ from astrobase_cli.utils.params import YamlParams
 
 
 class Apply:
-    def __init__(self):
-        self.clients = {"eks": EKSClient, "gke": GKEClient, "aks": AKSClient}
+    def __init__(self) -> None:
+        self.clients: Dict[str, Callable] = {
+            "eks": lambda: EKSClient,
+            "gke": lambda: GKEClient,
+            "aks": lambda: AKSClient,
+        }
 
     def apply_clusters(self, clusters: Clusters) -> None:
         for cluster in clusters.clusters:
-            client = self.clients.get(cluster.get("provider"))()
-            client.create(cluster)
+            provider = cluster.get("provider")
+            if provider is None:
+                raise ValueError(f"Missing provider for cluster {cluster.get('name')}")
+            client = self.clients[provider]()
+            client_instance = client()
+            client_instance.create(cluster)
 
     def apply_resources(self, resources: ResourceList, params: YamlParams) -> None:
         for resource in resources.resources:
@@ -24,8 +33,14 @@ class Apply:
                 src_dir=resource.resource_location,
                 dst_dir=temp_dir.name,
             )
-            client = self.clients.get(resource.provider)()  # pragma: no cover
-            client.apply_kubernetes_resources(  # pragma: no cover
+            provider = self.clients.get(resource.provider)
+            if provider is None:
+                raise ValueError(
+                    f"Missing resource provider for resource: {resource.name}"
+                )
+            client = provider()
+            client_instance = client()
+            client_instance.apply_kubernetes_resources(  # pragma: no cover
                 kubernetes_resource_location=temp_dir.name, **resource.dict()
             )
             temp_dir.cleanup()

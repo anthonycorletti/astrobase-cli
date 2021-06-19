@@ -25,7 +25,7 @@ class AstrobaseConfig:
     ASTROBASE_CONFIG_FILE = "ASTROBASE_CONFIG"
     DEFAULT_ASTROBASE_CONFIG_FILE = f"{os.getenv('HOME')}/.astrobase/config.json"
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.config_file = os.getenv(
             self.ASTROBASE_CONFIG_FILE,
             self.DEFAULT_ASTROBASE_CONFIG_FILE,
@@ -62,7 +62,7 @@ class AstrobaseConfig:
                 "View profile names with `astrobase profile get | jq 'keys'`"
             )
             raise typer.Exit(1)
-        return AstrobaseProfile(**self.config.get(profile_name))
+        return AstrobaseProfile(**self.config.get(profile_name, {}))
 
 
 class AstrobaseDockerConfig:

@@ -30,6 +30,14 @@ def test_new_config():
             "test-aws",
             "--aws-profile-name",
             "test-aws",
+            "--azure-client-id",
+            "test-azure",
+            "--azure-client-secret",
+            "test-azure",
+            "--azure-subscription-id",
+            "test-azure",
+            "--azure-tenant-id",
+            "test-azure",
         ],
     )
     astrobase_config = AstrobaseConfig()

@@ -8,7 +8,7 @@ app = typer.Typer(help="Run preflight and status checks.")
 
 
 @app.command()
-def commands():
+def commands() -> None:
     """
     Check that the cli can access certain commands in your PATH.
     """

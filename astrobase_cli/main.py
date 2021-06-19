@@ -15,7 +15,7 @@ app.add_typer(check.app, name="check")
 
 
 @app.callback()
-def main_callback():
+def main_callback() -> None:
     pass
 
 
@@ -23,7 +23,7 @@ main_callback.__doc__ = name
 
 
 @app.command("version")
-def _version():
+def _version() -> None:
     """
     Print the Astrobase CLI version.
     """
@@ -31,7 +31,7 @@ def _version():
 
 
 @app.command("init")
-def _init(astrobase_container_version: str = "latest"):
+def _init(astrobase_container_version: str = "latest") -> None:
     """
     Initialize Astrobase.
     """
@@ -48,7 +48,7 @@ def _apply(
         help="Parameters to pass into your yaml. "
         "Format: key=value<space>key2=value2<space>key3=value3<space>...",
     ),
-):
+) -> None:
     """
     Apply clusters and resources.
     """
@@ -73,7 +73,7 @@ def _destroy(
         help="Parameters to pass into your yaml."
         "Format: key=value<space>key2=value2<space>key3=value3<space>...",
     ),
-):
+) -> None:
     """
     Destroy clusters and resources.
     """

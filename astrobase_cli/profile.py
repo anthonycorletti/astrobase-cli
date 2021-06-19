@@ -23,7 +23,7 @@ def create(
     azure_client_secret: str = typer.Option(None),
     azure_subscription_id: str = typer.Option(None),
     azure_tenant_id: str = typer.Option(None),
-):
+) -> None:
     """
     Create a profile.
     """
@@ -45,7 +45,7 @@ def create(
 
 
 @app.command("get")
-def get(name: Optional[str] = None):
+def get(name: Optional[str] = None) -> None:
     """
     Get profiles; Specify --name to read a specific profile.
     """
@@ -60,7 +60,7 @@ def get(name: Optional[str] = None):
 
 
 @app.command()
-def current():
+def current() -> None:
     """
     Retrieve the current profile, set by the env var ASTROBASE_PROFILE.
     """
@@ -69,7 +69,7 @@ def current():
 
 
 @app.command()
-def delete(name: Optional[str] = None):
+def delete(name: Optional[str] = None) -> None:
     """
     Delete a profile :(
     """

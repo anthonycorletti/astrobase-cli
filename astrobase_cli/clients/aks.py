@@ -17,7 +17,7 @@ from astrobase_cli.utils.http import query_str
 
 
 class AKSClient:
-    def __init__(self):
+    def __init__(self) -> None:
         astrobase_config = AstrobaseConfig()
         self.url = f"{astrobase_config.current_profile().server}/aks"
 
@@ -78,7 +78,6 @@ class AKSClient:
         kubernetes_resource_location: str,
         cluster_name: str,
         resource_group_name: str,
-        **kwargs,
     ) -> None:
         aks_kubectl_creds = self.get_aks_kubectl_credentials(
             cluster_name=cluster_name,
@@ -104,7 +103,6 @@ class AKSClient:
         cluster_name: str,
         cluster_location: str,
         resource_group_name: str,
-        **kwargs,
     ) -> None:
         aks_kubectl_creds = self.get_aks_kubectl_credentials(
             cluster_name=cluster_name,

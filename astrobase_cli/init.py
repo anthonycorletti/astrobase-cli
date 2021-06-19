@@ -9,12 +9,12 @@ docker_client = docker.from_env()
 class Initializer:
     def docker_run(self, astrobase_container_version: str) -> None:
         astrobase_config = AstrobaseConfig()
-        typer.echo("Initializing Astrobase ... ")
+        typer.echo("Initializing Astrobase ... ")  # pragma: no cover
         astrobase_docker_config = AstrobaseDockerConfig(
             container_version=astrobase_container_version,
             astrobase_config=astrobase_config,
         )
-        typer.echo("Starting Astrobase server ... ")
+        typer.echo("Starting Astrobase server ... ")  # pragma: no cover
         docker_client.containers.run(
             image=astrobase_docker_config.image,
             ports=astrobase_docker_config.ports,
@@ -24,7 +24,7 @@ class Initializer:
             detach=astrobase_docker_config.detach,
             name=astrobase_docker_config.name,
         )
-        typer.echo(
+        typer.echo(  # pragma: no cover
             "Astrobase initialized and running at "
             f"{astrobase_config.current_profile().server}"
         )

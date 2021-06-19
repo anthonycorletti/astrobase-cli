@@ -16,7 +16,7 @@ from astrobase_cli.utils.http import query_str
 
 
 class GKEClient:
-    def __init__(self):
+    def __init__(self) -> None:
         astrobase_config = AstrobaseConfig()
         self.url = f"{astrobase_config.current_profile().server}/gke"
 
@@ -60,7 +60,6 @@ class GKEClient:
         cluster_name: str,
         cluster_location: str,
         project_id: str,
-        **kwargs,
     ) -> None:
         gke_kubectl_creds = self.get_gke_kubectl_credentials(
             cluster_name=cluster_name,
@@ -87,7 +86,6 @@ class GKEClient:
         cluster_name: str,
         cluster_location: str,
         project_id: str,
-        **kwargs,
     ) -> None:
         gke_kubectl_creds = self.get_gke_kubectl_credentials(
             cluster_name=cluster_name,

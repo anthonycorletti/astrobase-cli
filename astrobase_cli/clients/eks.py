@@ -20,7 +20,7 @@ from astrobase_cli.utils.formatter import json_out
 
 
 class EKSClient:
-    def __init__(self):
+    def __init__(self) -> None:
         astrobase_config = AstrobaseConfig()
         self.url = f"{astrobase_config.current_profile().server}/eks"
 
@@ -67,7 +67,6 @@ class EKSClient:
         kubernetes_resource_location: str,
         cluster_name: str,
         cluster_location: str,
-        **kwargs,
     ) -> None:
         eks_kubectl_creds = self.get_eks_kubectl_credentials(
             cluster_name=cluster_name,
@@ -92,7 +91,6 @@ class EKSClient:
         kubernetes_resource_location: str,
         cluster_name: str,
         cluster_location: str,
-        **kwargs,
     ) -> None:
         eks_kubectl_creds = self.get_eks_kubectl_credentials(
             cluster_name=cluster_name,
