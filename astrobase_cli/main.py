@@ -35,8 +35,8 @@ def _init(astrobase_container_version: str = "latest") -> None:
     """
     Initialize Astrobase.
     """
-    initializer = init.Initializer()  # pragma: no cover
-    initializer.docker_run(astrobase_container_version)  # pragma: no cover
+    initializer = init.Initializer()
+    initializer.docker_run(astrobase_container_version)
 
 
 @app.command("apply")

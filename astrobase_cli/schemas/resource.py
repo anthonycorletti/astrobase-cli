@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Union
 
 from pydantic import BaseModel
 
@@ -9,9 +9,19 @@ class Resource(BaseModel):
     cluster_name: str
     cluster_location: str
     resource_location: str
-    project_id: Optional[str]
-    resource_group_name: Optional[str]
+
+
+class GKEResource(Resource):
+    project_id: str
+
+
+class EKSResource(Resource):
+    pass
+
+
+class AKSResource(Resource):
+    resource_group_name: str
 
 
 class ResourceList(BaseModel):
-    resources: List[Resource] = []
+    resources: List[Union[GKEResource, EKSResource, AKSResource]] = []

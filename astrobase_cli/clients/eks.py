@@ -15,6 +15,7 @@ from botocore import session
 from sh import kubectl
 
 from astrobase_cli.schemas.kubernetes import EKSKubernetesCredentials
+from astrobase_cli.schemas.resource import EKSResource
 from astrobase_cli.utils.config import AstrobaseConfig
 from astrobase_cli.utils.formatter import json_out
 
@@ -62,20 +63,15 @@ class EKSClient:
             endpoint=endpoint, ca_path=ca_cert.name, token=token
         )
 
-    def apply_kubernetes_resources(
-        self,
-        kubernetes_resource_location: str,
-        cluster_name: str,
-        cluster_location: str,
-    ) -> None:
+    def apply_kubernetes_resources(self, resource: EKSResource) -> None:
         eks_kubectl_creds = self.get_eks_kubectl_credentials(
-            cluster_name=cluster_name,
-            cluster_location=cluster_location,
+            cluster_name=resource.cluster_name,
+            cluster_location=resource.cluster_location,
         )
         kubectl(
             "apply",
             "-f",
-            f"{kubernetes_resource_location}",
+            f"{resource.resource_location}",
             "--server",
             f"{eks_kubectl_creds.endpoint}",
             "--certificate-authority",
@@ -86,20 +82,15 @@ class EKSClient:
         )
         os.remove(eks_kubectl_creds.ca_path)
 
-    def destroy_kubernetes_resources(
-        self,
-        kubernetes_resource_location: str,
-        cluster_name: str,
-        cluster_location: str,
-    ) -> None:
+    def destroy_kubernetes_resources(self, resource: EKSResource) -> None:
         eks_kubectl_creds = self.get_eks_kubectl_credentials(
-            cluster_name=cluster_name,
-            cluster_location=cluster_location,
+            cluster_name=resource.cluster_name,
+            cluster_location=resource.cluster_location,
         )
         kubectl(
             "delete",
             "-f",
-            f"{kubernetes_resource_location}",
+            f"{resource.resource_location}",
             "--server",
             f"{eks_kubectl_creds.endpoint}",
             "--certificate-authority",

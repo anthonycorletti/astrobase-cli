@@ -10,6 +10,7 @@ import typer
 from sh import kubectl
 
 from astrobase_cli.schemas.kubernetes import GKEKubernetesCredentials
+from astrobase_cli.schemas.resource import GKEResource
 from astrobase_cli.utils.config import AstrobaseConfig
 from astrobase_cli.utils.formatter import json_out
 from astrobase_cli.utils.http import query_str
@@ -54,22 +55,16 @@ class GKEClient:
             endpoint=endpoint, ca_path=ca_cert.name, token=creds.token
         )
 
-    def apply_kubernetes_resources(
-        self,
-        kubernetes_resource_location: str,
-        cluster_name: str,
-        cluster_location: str,
-        project_id: str,
-    ) -> None:
+    def apply_kubernetes_resources(self, resource: GKEResource) -> None:
         gke_kubectl_creds = self.get_gke_kubectl_credentials(
-            cluster_name=cluster_name,
-            cluster_location=cluster_location,
-            project_id=project_id,
+            cluster_name=resource.cluster_name,
+            cluster_location=resource.cluster_location,
+            project_id=resource.project_id,
         )
         kubectl(
             "apply",
             "-f",
-            f"{kubernetes_resource_location}",
+            f"{resource.resource_location}",
             "--server",
             f"https://{gke_kubectl_creds.endpoint}",
             "--certificate-authority",
@@ -80,22 +75,16 @@ class GKEClient:
         )
         os.remove(gke_kubectl_creds.ca_path)
 
-    def destroy_kubernetes_resources(
-        self,
-        kubernetes_resource_location: str,
-        cluster_name: str,
-        cluster_location: str,
-        project_id: str,
-    ) -> None:
+    def destroy_kubernetes_resources(self, resource: GKEResource) -> None:
         gke_kubectl_creds = self.get_gke_kubectl_credentials(
-            cluster_name=cluster_name,
-            cluster_location=cluster_location,
-            project_id=project_id,
+            cluster_name=resource.cluster_name,
+            cluster_location=resource.cluster_location,
+            project_id=resource.project_id,
         )
         kubectl(
             "delete",
             "-f",
-            f"{kubernetes_resource_location}",
+            f"{resource.resource_location}",
             "--server",
             f"https://{gke_kubectl_creds.endpoint}",
             "--certificate-authority",
