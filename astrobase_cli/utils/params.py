@@ -1,5 +1,4 @@
 import os
-import time
 from enum import Enum, unique
 from pathlib import Path
 from typing import Any, Optional
@@ -72,6 +71,9 @@ class YamlParams(BaseModel):
             else:
                 if v == replace_var:
                     obj[k] = replace_value
+                elif isinstance(v, str):
+                    if replace_var in v:
+                        obj[k] = v.replace(replace_var, replace_value)
         return obj
 
     def template_resource_files(self, src_dir: str, dst_dir: str) -> None:
@@ -100,8 +102,6 @@ class YamlParams(BaseModel):
         with open(f"{dst_dir}/{src_file_name}", "w") as dst_file:
             with open(f"{src_dir}/{src_file_name}", "r") as src_file:
                 for data in yaml.safe_load_all(src_file):
-                    if data["kind"] == "CustomResourceDefinition":
-                        time.sleep(1)  # give the api server a second to make the crd
                     templated = self.update_data_with_values(data)
                     final_yaml = yaml.dump(templated, default_flow_style=False)
                     dst_file.write("---\n")
