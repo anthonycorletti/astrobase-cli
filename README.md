@@ -140,8 +140,8 @@ Sweet. Now we can check that Astrobase was kicked off locally.
 
 ```sh
 $ docker ps -a
-CONTAINER ID   IMAGE                                 COMMAND                  CREATED         STATUS         PORTS                    NAMES
-da589f68847e   gcr.io/astrobaseco/astrobase:latest   "/bin/sh -c 'gunicor…"   7 seconds ago   Up 6 seconds   0.0.0.0:8787->8787/tcp   astrobase-my-profile
+CONTAINER ID   IMAGE                                    COMMAND                  CREATED         STATUS         PORTS                    NAMES
+da589f68847e   gcr.io/astrobasecloud/astrobase:latest   "/bin/sh -c 'gunicor…"   7 seconds ago   Up 6 seconds   0.0.0.0:8787->8787/tcp   astrobase-my-profile
 ```
 
 The Astrobase API server is built on top of [FastAPI](https://github.com/tiangolo/fastapi), which is incredibly awesome.

@@ -67,7 +67,7 @@ class AstrobaseConfig:
 
 class AstrobaseDockerConfig:
     CONTAINER_REGISTRY_DOMAIN = "gcr.io"
-    DOCKER_GROUP = "astrobaseco"
+    DOCKER_GROUP = "astrobasecloud"
     DOCKER_CONTAINER_NAME = "astrobase"
     AWS_PROFILE_ENV_KEY = "AWS_PROFILE"
     AWS_CREDS_CONTAINER = "/aws-credentials"
