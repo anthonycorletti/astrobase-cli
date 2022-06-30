@@ -1,4 +1,4 @@
-### ❗️This repository is currently deprecated in favor of the new and improved [Astrobase](https://github.com/astrobase/astrobase). For inquires, please reach out to us [@astrobasecloud](https://twitter.com/astrobasecloud)
+### ❗️This repository is currently deprecated in favor of the new and improved [Astrobase](https://github.com/anthonycorletti/astrobase). For inquires, please reach out to us [@astrobasecloud](https://twitter.com/astrobasecloud)
 
 ---
 
